@@ -1,5 +1,4 @@
 using System.Threading.Tasks;
-using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using RaffleApp.Models;
@@ -15,7 +14,7 @@ public partial class SignupView : UserControl
     }
 
     private void RaffleButton_OnClick(object? sender, RoutedEventArgs e)
-    {
+    { 
         _ = (DataContext as MainViewModel).DoRaffle();
     }
 

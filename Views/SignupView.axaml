@@ -5,7 +5,8 @@
              xmlns:vm="clr-namespace:RaffleApp.ViewModels"
              x:DataType="vm:MainViewModel"
              mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="600"
-             Width="600" Height="600"
+             HorizontalAlignment="Stretch"
+             VerticalAlignment="Stretch"
              x:Class="RaffleApp.Views.SignupView">
     
     <Design.DataContext>
@@ -14,8 +15,8 @@
             <vm:MainViewModel />
     </Design.DataContext>
     
-    <StackPanel HorizontalAlignment="Center"
-                VerticalAlignment="Center"
+    <StackPanel HorizontalAlignment="Stretch"
+                VerticalAlignment="Stretch"
                 Orientation="Vertical"
                 Margin="10"
                 Spacing="10">
@@ -23,7 +24,9 @@
         <StackPanel Orientation="Vertical">
             <StackPanel Orientation="Horizontal"
                 Margin="10"
-                Spacing="10">
+                Spacing="10"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Stretch">
 
                 <!-- Current Participant List -->
                 <ItemsRepeater Name="CurrentParticipantList" ItemsSource="{Binding CurrentParticipants, Mode=OneWay}">
@@ -33,7 +36,7 @@
                                     CornerRadius="5"
                                     BorderBrush="Blue" BorderThickness="1"
                                     Padding="5">
-                                <StackPanel Orientation="Horizontal">
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                                     <TextBlock Text="{Binding Name}" />
                                     <TextBlock Margin="5 0" FontWeight="Bold"
                                                Text="{Binding ConsecutiveLost}" />
@@ -45,9 +48,9 @@
                 <!--- Participant Entry Area -->
                 <StackPanel Orientation="Vertical">
                     <Button Name="AddButton" Click="AddButton_OnClick">
-                        <TextBlock Text="Add Participants"></TextBlock>
+                        <TextBlock Text="Add Names From Box" HorizontalAlignment="Center"></TextBlock>
                     </Button>
-                    <TextBox Name="AddBox" IsReadOnly="False"></TextBox>
+                    <TextBox Name="AddBox" IsReadOnly="False" Height="300" Width="200" AcceptsReturn="True" TextWrapping="Wrap"></TextBox>
                 </StackPanel>
             </StackPanel>
             <!-- "Start Raffle" Button -->
@@ -56,7 +59,7 @@
                 <TextBlock Text="GO!"></TextBlock>
             </Button>
             <!-- General Stats Table -->
-            <ScrollViewer>
+            <ScrollViewer HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" BringIntoViewOnFocusChange="True" IsScrollInertiaEnabled="True">
                 <TreeDataGrid Margin="20" Source="{Binding ParticipantSource, Mode=OneWay}"
                               Name="AllParticipantsList"
                               BorderThickness="1" BorderBrush="Gray"

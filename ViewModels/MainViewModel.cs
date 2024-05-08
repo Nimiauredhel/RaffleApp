@@ -5,6 +5,7 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Models.TreeDataGrid;
 using Avalonia.Controls.Notifications;
+using DynamicData.Binding;
 using RaffleApp.Models;
 using ReactiveUI;
 using Notification = Avalonia.Controls.Notifications.Notification;
@@ -15,27 +16,27 @@ public class MainViewModel : ViewModelBase
 {
 #pragma warning disable CA1822 // Mark members as static
 #pragma warning restore CA1822 // Mark members as static
-   
+
     public ObservableCollection<Participant> AllParticipants => Data.AllParticipants;
     public ObservableCollection<Participant> CurrentParticipants => Data.CurrentParticipants;
-    public ObservableCollection<Participant> RaffleEntries => raffleEntries; 
+    public ObservableCollection<Participant> RaffleEntries => raffleEntries;
     public FlatTreeDataGridSource<Participant> ParticipantSource { get; private set; }
-    
+
     public bool RaffleInProgress
     {
         get => raffleInProgress;
-        set => this.RaiseAndSetIfChanged(ref raffleInProgress, value); 
+        set => this.RaiseAndSetIfChanged(ref raffleInProgress, value);
     }
 
     private bool raffleInProgress = false;
 
     private ObservableCollection<Participant> raffleEntries = new ObservableCollection<Participant>();
-    
+
     public MainViewModel()
     {
-        this.WhenAnyValue(x => x.AllParticipants).Subscribe(x =>
+        this.WhenPropertyChanged(x => x.RaffleInProgress).Subscribe(delegate
         {
-            ParticipantSource = new FlatTreeDataGridSource<Participant>(x)
+            ParticipantSource = new FlatTreeDataGridSource<Participant>(AllParticipants)
             {
                 Columns =
                 {
@@ -50,7 +51,7 @@ public class MainViewModel : ViewModelBase
         Data.TryAddParticipant("Gary");
         Console.WriteLine("DSFSDF");
     }
-    
+
     public async Task DoRaffle()
     {
         Console.WriteLine("Doing the raffle procedure (ViewModel).");
@@ -61,22 +62,32 @@ public class MainViewModel : ViewModelBase
 
         if (app == null || CurrentParticipants.Count == 0)
         {
-            Notification not = new Notification("Whoa!", "No participants!", NotificationType.Warning, TimeSpan.FromSeconds(3));
+            Notification not = new Notification("Whoa!", "No participants!", NotificationType.Warning,
+                TimeSpan.FromSeconds(3));
+            RaffleInProgress = false;
             return;
-        } 
-        
+        }
+        else if (CurrentParticipants.Count == 1)
+        {
+            RaffleEntries[0].OnWon();
+            RaffleEntries.Clear();
+            await Task.Delay(500);
+            RaffleInProgress = false;
+            return;
+        }
+
         RaffleEntries.Clear();
         Random random = new Random(DateTime.Now.Ticks.GetHashCode() + DateTime.Now.Nanosecond);
 
         for (int i = 0; i < 4; i++)
         {
-                await Task.Delay(500);
-                CurrentParticipants.Shuffle(random);
+            await Task.Delay(500);
+            CurrentParticipants.Shuffle(random);
         }
-        
+
         await Task.Delay(500);
-        
-        for(int i = CurrentParticipants.Count - 1; i >= 0; i--)
+
+        for (int i = CurrentParticipants.Count - 1; i >= 0; i--)
         {
             Participant participant = CurrentParticipants[i];
             int entryCount = 1 + participant.ConsecutiveLost;
@@ -94,8 +105,8 @@ public class MainViewModel : ViewModelBase
 
         for (int i = 0; i < 4; i++)
         {
-                await Task.Delay(500);
-                RaffleEntries.Shuffle(random);
+            await Task.Delay(500);
+            RaffleEntries.Shuffle(random);
         }
 
         while (RaffleEntries.Count > 1)
@@ -110,11 +121,10 @@ public class MainViewModel : ViewModelBase
                 removed.OnLost();
             }
         }
-        
+
         await Task.Delay(1000);
 
-        Participant winner = RaffleEntries[0];
-        winner.OnWon();
+        RaffleEntries[0].OnWon();
         RaffleEntries.Clear();
         await Task.Delay(1000);
         RaffleInProgress = false;
