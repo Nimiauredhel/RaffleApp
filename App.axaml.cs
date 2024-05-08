@@ -1,8 +1,8 @@
+using System.Net.Mime;
 using System.Threading.Tasks;
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
-using Avalonia.Media;
 using RaffleApp.ViewModels;
 using RaffleApp.Views;
 
@@ -10,12 +10,11 @@ namespace RaffleApp;
 
 public partial class App : Application
 {
-    public MainWindow MainWindow => mainWindow;
-    public RaffleWindow RaffleWindow => raffleWindow;
+    public RaffleView RaffleView => raffleView;
 
-    private MainWindowViewModel mainViewModel = new MainWindowViewModel();
-    private MainWindow mainWindow;
-    private RaffleWindow raffleWindow;
+    private MainViewModel mainViewModel = new MainViewModel();
+    private MainView mainView;
+    private RaffleView? raffleView;
     
     public override void Initialize()
     {
@@ -24,49 +23,57 @@ public partial class App : Application
 
     public override void OnFrameworkInitializationCompleted()
     { 
-        InitializeAllWindows(); 
-        ShowMainWindow();
+        InitializeAllViews();
+
+        if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktopLifetime)
+        {
+            desktopLifetime.MainWindow = new MainWindow();
+        }
+        else if (ApplicationLifetime is ISingleViewApplicationLifetime singleView) 
+        {
+            singleView.MainView = new MainSingleView();
+        }
+        
         base.OnFrameworkInitializationCompleted();
+        ShowMainView();
     }
 
     public async Task DoRaffle()
     {
-        ShowRaffleWindow();
+        ShowRaffleView();
         await mainViewModel.DoRaffle();
-        ShowMainWindow();
-    }
-    
-    public void ShowMainWindow()
-    {
-        raffleWindow.Hide();
-        mainWindow.Effect = null;
-        mainWindow.Focusable = true;
-        mainWindow.Show();
-        mainWindow.Focus();
-    }
-    
-    public void ShowRaffleWindow()
-    {
-        mainWindow.Effect = new BlurEffect();
-        mainWindow.Focusable = false;
-        raffleWindow.Show();
-        raffleWindow.Focus();
+        ShowMainView();
     }
 
-    private void InitializeAllWindows()
+    private void ShowMainView()
     {
-        if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
+        if (raffleView != null)
         {
-            mainWindow = new MainWindow()
-            {
-                DataContext = mainViewModel
-            };
-            
-            raffleWindow = new RaffleWindow(mainViewModel)
-            {
-                DataContext = mainViewModel, Effect = new DropShadowEffect()
-            };
+            raffleView.IsVisible = false;
         }
+
+        mainView.IsVisible = true;
+        mainView.Focus();
+    }
+
+    private void ShowRaffleView()
+    {
+        if (raffleView == null) return;
+        mainView.IsVisible = false;
+        raffleView.IsVisible = true;
+        raffleView.Focus();
+    }
+
+    private void InitializeAllViews()
+    {
+        mainView = new MainView()
+        {
+            DataContext = mainViewModel
+        };
         
+        raffleView = new RaffleView(mainViewModel)
+        {
+            DataContext = mainViewModel
+        };
     }
 }

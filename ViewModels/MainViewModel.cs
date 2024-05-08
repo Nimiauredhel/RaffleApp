@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.ObjectModel;
-using System.Reactive;
 using System.Threading.Tasks;
 using Avalonia;
 using Avalonia.Controls;
@@ -11,7 +10,7 @@ using Notification = Avalonia.Controls.Notifications.Notification;
 
 namespace RaffleApp.ViewModels;
 
-public class MainWindowViewModel : ViewModelBase
+public class MainViewModel : ViewModelBase
 {
 #pragma warning disable CA1822 // Mark members as static
 #pragma warning restore CA1822 // Mark members as static
@@ -23,7 +22,7 @@ public class MainWindowViewModel : ViewModelBase
 
     private ObservableCollection<Participant> raffleEntries = new ObservableCollection<Participant>();
     
-    public MainWindowViewModel()
+    public MainViewModel()
     {
         ParticipantSource = new FlatTreeDataGridSource<Participant>(AllParticipants)
         {
@@ -73,7 +72,7 @@ public class MainWindowViewModel : ViewModelBase
             CurrentParticipants.RemoveAt(i);
         }
 
-        app.RaffleWindow.CurrentParticipantList.ItemsSource = RaffleEntries;
+        app.RaffleView.CurrentParticipantList.ItemsSource = RaffleEntries;
 
         for (int i = 0; i < 4; i++)
         {
@@ -101,6 +100,4 @@ public class MainWindowViewModel : ViewModelBase
         RaffleEntries.Clear();
         await Task.Delay(1000);
     }
-    
-    
 }

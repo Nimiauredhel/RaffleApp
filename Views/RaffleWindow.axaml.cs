@@ -10,9 +10,9 @@ using RaffleApp.ViewModels;
 
 namespace RaffleApp.Views;
 
-public partial class RaffleWindow : Window
+public partial class RaffleView : UserControl
 {
-    public RaffleWindow(MainWindowViewModel viewModel)
+    public RaffleView(MainViewModel viewModel)
     {
         InitializeComponent();
     }
