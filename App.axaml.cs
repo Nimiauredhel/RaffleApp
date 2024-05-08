@@ -27,6 +27,9 @@ public partial class App : Application
 
     public override void OnFrameworkInitializationCompleted()
     {
+        signupView = new SignupView();
+        raffleView = new RaffleView();
+        
         mainView = new MainView()
         {
             DataContext = mainViewModel, SignupView = signupView, RaffleView = raffleView

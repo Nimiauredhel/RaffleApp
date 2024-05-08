@@ -19,7 +19,7 @@ public class MainViewModel : ViewModelBase
     public ObservableCollection<Participant> AllParticipants => Data.AllParticipants;
     public ObservableCollection<Participant> CurrentParticipants => Data.CurrentParticipants;
     public ObservableCollection<Participant> RaffleEntries => raffleEntries; 
-    public FlatTreeDataGridSource<Participant> ParticipantSource { get; }
+    public FlatTreeDataGridSource<Participant> ParticipantSource { get; private set; }
     
     public bool RaffleInProgress
     {
@@ -33,16 +33,19 @@ public class MainViewModel : ViewModelBase
     
     public MainViewModel()
     {
-        ParticipantSource = new FlatTreeDataGridSource<Participant>(AllParticipants)
+        this.WhenAnyValue(x => x.AllParticipants).Subscribe(x =>
         {
-            Columns =
+            ParticipantSource = new FlatTreeDataGridSource<Participant>(x)
             {
-                new TextColumn<Participant, string>
-                    ("Name", x => x.Name),
-                new TextColumn<Participant, int>
-                    ("Consecutive Lost", x => x.ConsecutiveLost)
-            },
-        };
+                Columns =
+                {
+                    new TextColumn<Participant, string>
+                        ("Name", x => x.Name),
+                    new TextColumn<Participant, int>
+                        ("Consecutive Lost", x => x.ConsecutiveLost)
+                },
+            };
+        });
 
         Data.TryAddParticipant("Gary");
         Console.WriteLine("DSFSDF");
@@ -53,6 +56,7 @@ public class MainViewModel : ViewModelBase
         Console.WriteLine("Doing the raffle procedure (ViewModel).");
         App app = (Application.Current as App);
 
+        app.RaffleView.CurrentParticipantList.ItemsSource = CurrentParticipants;
         RaffleInProgress = true;
 
         if (app == null || CurrentParticipants.Count == 0)

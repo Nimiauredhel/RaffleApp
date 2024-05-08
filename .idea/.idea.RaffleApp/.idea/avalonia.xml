@@ -7,6 +7,7 @@
         <entry key="Views/MainSingleView.axaml" value="RaffleApp.csproj" />
         <entry key="Views/MainView.axaml" value="RaffleApp.csproj" />
         <entry key="Views/MainWindow.axaml" value="RaffleApp.csproj" />
+        <entry key="Views/RaffleView.axaml" value="RaffleApp.csproj" />
         <entry key="Views/RaffleWindow.axaml" value="RaffleApp.csproj" />
         <entry key="Views/SignupView.axaml" value="RaffleApp.csproj" />
       </map>

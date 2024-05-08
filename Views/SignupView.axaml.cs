@@ -16,7 +16,7 @@ public partial class SignupView : UserControl
 
     private void RaffleButton_OnClick(object? sender, RoutedEventArgs e)
     {
-        Task.Run((DataContext as MainViewModel).DoRaffle);
+        _ = (DataContext as MainViewModel).DoRaffle();
     }
 
     private void AddButton_OnClick(object? sender, RoutedEventArgs e)
