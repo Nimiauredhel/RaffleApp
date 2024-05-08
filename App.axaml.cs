@@ -1,4 +1,4 @@
-using System.Net.Mime;
+using System;
 using System.Threading.Tasks;
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
@@ -10,70 +10,43 @@ namespace RaffleApp;
 
 public partial class App : Application
 {
+    public MainView MainView => mainView;
+    public SignupView SignupView => signupView;
     public RaffleView RaffleView => raffleView;
-
-    private MainViewModel mainViewModel = new MainViewModel();
-    private MainView mainView;
-    private RaffleView? raffleView;
     
+    private MainView mainView;
+    private SignupView signupView;
+    private RaffleView raffleView;
+    private MainViewModel mainViewModel = new MainViewModel();
+    
+
     public override void Initialize()
     {
         AvaloniaXamlLoader.Load(this);
     }
 
     public override void OnFrameworkInitializationCompleted()
-    { 
-        InitializeAllViews();
-
-        if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktopLifetime)
-        {
-            desktopLifetime.MainWindow = new MainWindow();
-        }
-        else if (ApplicationLifetime is ISingleViewApplicationLifetime singleView) 
-        {
-            singleView.MainView = new MainSingleView();
-        }
-        
-        base.OnFrameworkInitializationCompleted();
-        ShowMainView();
-    }
-
-    public async Task DoRaffle()
-    {
-        ShowRaffleView();
-        await mainViewModel.DoRaffle();
-        ShowMainView();
-    }
-
-    private void ShowMainView()
-    {
-        if (raffleView != null)
-        {
-            raffleView.IsVisible = false;
-        }
-
-        mainView.IsVisible = true;
-        mainView.Focus();
-    }
-
-    private void ShowRaffleView()
-    {
-        if (raffleView == null) return;
-        mainView.IsVisible = false;
-        raffleView.IsVisible = true;
-        raffleView.Focus();
-    }
-
-    private void InitializeAllViews()
     {
         mainView = new MainView()
         {
-            DataContext = mainViewModel
+            DataContext = mainViewModel, SignupView = signupView, RaffleView = raffleView
         };
-        
-        raffleView = new RaffleView(mainViewModel)
+
+        if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktopLifetime)
         {
-            DataContext = mainViewModel
-        };
+            desktopLifetime.MainWindow = new MainWindow()
+            {
+                DataContext = mainViewModel, MainView = mainView
+            };
+        }
+        else if (ApplicationLifetime is ISingleViewApplicationLifetime singleView)
+        {
+            singleView.MainView = new MainSingleView()
+            {
+                DataContext = mainViewModel, MainView = mainView
+            };
+        }
+        
+        base.OnFrameworkInitializationCompleted();
     }
 }

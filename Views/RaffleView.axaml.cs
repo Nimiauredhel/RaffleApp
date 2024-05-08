@@ -1,9 +1,10 @@
 using Avalonia.Controls;
 
 namespace RaffleApp.Views;
-public partial class MainWindow : Window
+
+public partial class RaffleView : UserControl
 {
-    public MainWindow()
+    public RaffleView()
     {
         InitializeComponent();
     }

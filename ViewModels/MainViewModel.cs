@@ -6,6 +6,7 @@ using Avalonia.Controls;
 using Avalonia.Controls.Models.TreeDataGrid;
 using Avalonia.Controls.Notifications;
 using RaffleApp.Models;
+using ReactiveUI;
 using Notification = Avalonia.Controls.Notifications.Notification;
 
 namespace RaffleApp.ViewModels;
@@ -19,6 +20,14 @@ public class MainViewModel : ViewModelBase
     public ObservableCollection<Participant> CurrentParticipants => Data.CurrentParticipants;
     public ObservableCollection<Participant> RaffleEntries => raffleEntries; 
     public FlatTreeDataGridSource<Participant> ParticipantSource { get; }
+    
+    public bool RaffleInProgress
+    {
+        get => raffleInProgress;
+        set => this.RaiseAndSetIfChanged(ref raffleInProgress, value); 
+    }
+
+    private bool raffleInProgress = false;
 
     private ObservableCollection<Participant> raffleEntries = new ObservableCollection<Participant>();
     
@@ -34,12 +43,17 @@ public class MainViewModel : ViewModelBase
                     ("Consecutive Lost", x => x.ConsecutiveLost)
             },
         };
-        
+
+        Data.TryAddParticipant("Gary");
+        Console.WriteLine("DSFSDF");
     }
     
     public async Task DoRaffle()
     {
+        Console.WriteLine("Doing the raffle procedure (ViewModel).");
         App app = (Application.Current as App);
+
+        RaffleInProgress = true;
 
         if (app == null || CurrentParticipants.Count == 0)
         {
@@ -99,5 +113,6 @@ public class MainViewModel : ViewModelBase
         winner.OnWon();
         RaffleEntries.Clear();
         await Task.Delay(1000);
+        RaffleInProgress = false;
     }
 }
