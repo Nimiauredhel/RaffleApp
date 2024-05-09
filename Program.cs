@@ -3,6 +3,7 @@ using Avalonia.ReactiveUI;
 using System;
 using System.Linq;
 using System.Threading;
+using Avalonia.Extensions.Controls;
 
 namespace RaffleApp;
 
@@ -41,6 +42,7 @@ sealed class Program
         => AppBuilder.Configure<App>()
             .UsePlatformDetect()
             .WithInterFont()
+            .UseDoveExtensions()
             .LogToTrace()
             .UseReactiveUI();
 }

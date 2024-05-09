@@ -6,7 +6,7 @@
              x:DataType="vm:MainViewModel"
              mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="600"
              HorizontalAlignment="Stretch"
-             VerticalAlignment="Stretch"
+  Background="MediumPurple" Foreground="Crimson" FontFamily="Arial" FontWeight="UltraBlack" FontSize="18"            VerticalAlignment="Stretch"
              xmlns:views="clr-namespace:RaffleApp.Views"
              x:Class="RaffleApp.Views.MainView">
 
