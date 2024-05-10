@@ -3,6 +3,7 @@ using Avalonia.ReactiveUI;
 using System;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 using Avalonia.Extensions.Controls;
 using RaffleApp.Models;
 
@@ -14,7 +15,7 @@ sealed class Program
     // SynchronizationContext-reliant code before AppMain is called: things aren't initialized
     // yet and stuff might break.
     [STAThread]
-    public static int Main(string[] args)
+    public static async Task<int> Main(string[] args)
     {
         var builder = BuildAvaloniaApp();
         

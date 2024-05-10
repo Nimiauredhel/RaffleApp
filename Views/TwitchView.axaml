@@ -1,0 +1,41 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:ext="using:Avalonia.Extensions.Controls"
+             xmlns:actipro="http://schemas.actiprosoftware.com/avaloniaui"
+             xmlns:fluent="using:Avalonia.Themes.Fluent"
+             xmlns:viewModels="clr-namespace:RaffleApp.ViewModels"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+             x:Class="RaffleApp.Views.TwitchView"
+             x:DataType="viewModels:ApplicationViewModel">
+    
+    <Design.DataContext>
+            <!-- This only sets the DataContext for the previewer in an IDE,
+             to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
+            <viewModels:ApplicationViewModel />
+        </Design.DataContext>
+   <StackPanel Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center"> 
+        <!--- Bot Credentials Entry -->
+        <Border BorderBrush="Blue" BorderThickness="2" Padding="2">
+            <StackPanel Orientation="Vertical" Spacing="8" VerticalAlignment="Stretch">
+                <ToggleSwitch Name="BotSwitch" HorizontalAlignment="Center" IsCheckedChanged="SetBotIsOn">
+                    <TextBlock Text="Twitch-Bot" FontSize="18" HorizontalAlignment="Center"></TextBlock>
+                </ToggleSwitch>
+                <TextBlock Text="Username" HorizontalAlignment="Center"></TextBlock>
+                <TextBox Name="UsernameBox" IsReadOnly="False" Height="30" Width="200" AcceptsReturn="False"
+                         TextWrapping="Wrap" HorizontalAlignment="Center" HorizontalContentAlignment="Left" TextChanged="SetUsername">
+                </TextBox>
+                <TextBlock Text="OAuth Token" HorizontalAlignment="Center"></TextBlock>
+                <TextBox Name="PasswordBox" IsReadOnly="False" Height="30" Width="200" AcceptsReturn="False"
+                         TextWrapping="Wrap" HorizontalAlignment="Center" HorizontalContentAlignment="Left" PasswordChar="X" TextChanged="SetPassword">
+                </TextBox>
+                <TextBlock Text="Key Word" HorizontalAlignment="Center"></TextBlock>
+                <TextBox Name="KeywordBox" IsReadOnly="False" Height="30" Width="200" AcceptsReturn="False"
+                         TextWrapping="Wrap" HorizontalAlignment="Center" HorizontalContentAlignment="Left" TextChanged="SetKeyword">
+                </TextBox>
+            </StackPanel>
+        </Border>
+</StackPanel>
+</UserControl>

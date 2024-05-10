@@ -7,7 +7,7 @@
              mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="600"
              HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
              x:Class="RaffleApp.Views.RaffleView"
-             x:DataType="viewModels:MainViewModel">
+             x:DataType="viewModels:ApplicationViewModel">
     <StackPanel HorizontalAlignment="Stretch"
                 VerticalAlignment="Stretch"
                 Margin="30"
@@ -16,13 +16,13 @@
         <Design.DataContext>
             <!-- This only sets the DataContext for the previewer in an IDE,
              to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
-            <vm:MainViewModel />
+            <vm:ApplicationViewModel />
         </Design.DataContext>
 
         <StackPanel>
             <!-- Current Participants -->
             <Border Background="Plum" BorderBrush="Indigo" BorderThickness="10" VerticalAlignment="Stretch"
-                    HorizontalAlignment="Stretch" UseLayoutRounding="True" x:DataType="viewModels:MainViewModel">
+                    HorizontalAlignment="Stretch" UseLayoutRounding="True" x:DataType="viewModels:ApplicationViewModel">
                 <ItemsRepeater Name="CurrentParticipantList" ItemsSource="{Binding CurrentParticipants, Mode=OneWay}">
                     <ItemsRepeater.ItemTemplate>
                         <DataTemplate>
@@ -42,7 +42,7 @@
             </Border>
             <!-- Raffle Box -->
             <Border Background="Indigo" BorderBrush="Plum" BorderThickness="10" VerticalAlignment="Stretch"
-                    HorizontalAlignment="Stretch" UseLayoutRounding="True" x:DataType="viewModels:MainViewModel">
+                    HorizontalAlignment="Stretch" UseLayoutRounding="True" x:DataType="viewModels:ApplicationViewModel">
                 <ItemsRepeater Name="RaffleBox" ItemsSource="{Binding RaffleEntries, Mode=OneWay}">
                     <ItemsRepeater.ItemTemplate>
                         <DataTemplate>
@@ -64,7 +64,7 @@
                     HorizontalAlignment="Stretch" UseLayoutRounding="True">
                 <Panel>
                     <Carousel Name="RaffleCarousel" ItemsSource="{Binding RaffleEntries}"
-                              x:DataType="viewModels:MainViewModel">
+                              x:DataType="viewModels:ApplicationViewModel">
                         <Carousel.PageTransition>
                             <CompositePageTransition>
                                 <PageSlide Duration="0:00:01.500" Orientation="Horizontal" />

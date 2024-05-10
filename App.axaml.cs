@@ -1,5 +1,3 @@
-using System;
-using System.Threading.Tasks;
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
@@ -17,7 +15,7 @@ public partial class App : Application
     private MainView mainView;
     private SignupView signupView;
     private RaffleView raffleView;
-    private MainViewModel mainViewModel = new MainViewModel();
+    private ApplicationViewModel _applicationViewModel = new ApplicationViewModel();
     
 
     public override void Initialize()
@@ -32,21 +30,21 @@ public partial class App : Application
         
         mainView = new MainView()
         {
-             DataContext = mainViewModel, SignupView = signupView, RaffleView = raffleView
+             DataContext = _applicationViewModel, SignupView = signupView, RaffleView = raffleView
         };
 
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktopLifetime)
         {
             desktopLifetime.MainWindow = new MainWindow()
             {
-                DataContext = mainViewModel, MainView = mainView
+                DataContext = _applicationViewModel, MainView = mainView
             };
         }
         else if (ApplicationLifetime is ISingleViewApplicationLifetime singleView)
         {
             singleView.MainView = new MainSingleView()
             {
-                DataContext = mainViewModel, MainView = mainView
+                DataContext = _applicationViewModel, MainView = mainView
             };
         }
         

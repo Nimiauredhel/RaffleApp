@@ -11,6 +11,7 @@
         <entry key="Views/RaffleView.axaml" value="RaffleApp.csproj" />
         <entry key="Views/RaffleWindow.axaml" value="RaffleApp.csproj" />
         <entry key="Views/SignupView.axaml" value="RaffleApp.csproj" />
+        <entry key="Views/TwitchView.axaml" value="RaffleApp.csproj" />
       </map>
     </option>
   </component>
