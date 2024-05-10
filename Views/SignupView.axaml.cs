@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
@@ -15,7 +16,7 @@ public partial class SignupView : UserControl
 
     private void RaffleButton_OnClick(object? sender, RoutedEventArgs e)
     { 
-        _ = (DataContext as MainViewModel).DoRaffle();
+        (DataContext as MainViewModel).BeginRaffle();
     }
 
     private void AddButton_OnClick(object? sender, RoutedEventArgs e)
@@ -28,6 +29,8 @@ public partial class SignupView : UserControl
             {
                 Data.TryAddParticipant(names[i]);
             }
+            
+            AddBox.Text = String.Empty;
         }
     }
 }

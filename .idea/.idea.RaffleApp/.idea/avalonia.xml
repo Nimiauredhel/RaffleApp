@@ -4,6 +4,7 @@
     <option name="projectPerEditor">
       <map>
         <entry key="App.axaml" value="RaffleApp.csproj" />
+        <entry key="Views/AppStyles.axaml" value="RaffleApp.csproj" />
         <entry key="Views/MainSingleView.axaml" value="RaffleApp.csproj" />
         <entry key="Views/MainView.axaml" value="RaffleApp.csproj" />
         <entry key="Views/MainWindow.axaml" value="RaffleApp.csproj" />

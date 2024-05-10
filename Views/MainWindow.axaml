@@ -3,23 +3,23 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:ext="using:Avalonia.Extensions.Controls" 
-        mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="600"
+        mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="670"
         xmlns:views="clr-namespace:RaffleApp.Views"
         x:Class="RaffleApp.Views.MainWindow"
         xmlns:vm="clr-namespace:RaffleApp.ViewModels"
         x:DataType="vm:MainViewModel"
         Icon="/Assets/avalonia-logo.ico"
         Title="Raffle App"
-        Padding="5" 
-        Position="960, 540"
-        HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+        Position="960, 540" Width="600" Height="670"
+        Background="Transparent" CanResize="False" WindowStartupLocation="CenterScreen"
+        HorizontalAlignment="Center" VerticalAlignment="Center">
     <Design.DataContext>
         <!-- This only sets the DataContext for the previewer in an IDE,
              to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
         <vm:MainViewModel />
     </Design.DataContext>
 
-    <Panel>
+    <Panel VerticalAlignment="Top" HorizontalAlignment="Center">
         <views:MainView Name="MainView"/>
     </Panel>
 </AeroWindow>

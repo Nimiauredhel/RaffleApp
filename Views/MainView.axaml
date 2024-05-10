@@ -3,10 +3,14 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="clr-namespace:RaffleApp.ViewModels"
+             xmlns:ext="using:Avalonia.Extensions.Controls"
+             xmlns:actipro="http://schemas.actiprosoftware.com/avaloniaui" 
              x:DataType="vm:MainViewModel"
              mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="600"
              HorizontalAlignment="Stretch"
-  Background="MediumPurple" Foreground="Crimson" FontFamily="Arial" FontWeight="UltraBlack" FontSize="18"            VerticalAlignment="Stretch"
+             Background="MediumPurple" Foreground="Black" FontFamily="Arial" FontWeight="UltraBlack" FontSize="18"
+             BorderBrush="Moccasin" BorderThickness="4" CornerRadius="10"
+             VerticalAlignment="Stretch"
              xmlns:views="clr-namespace:RaffleApp.Views"
              x:Class="RaffleApp.Views.MainView">
 
@@ -16,9 +20,10 @@
         <vm:MainViewModel />
     </Design.DataContext>
 
-    <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" x:DataType="vm:MainViewModel">
-        <views:SignupView Name="SignupView" IsVisible="{Binding !RaffleInProgress }"/>
-        <views:RaffleView Name="RaffleView"  IsVisible="{Binding RaffleInProgress }"/>
+    <StackPanel Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                x:DataType="vm:MainViewModel">
+        <views:SignupView Name="SignupView" IsVisible="{Binding !RaffleInProgress }" />
+        <views:RaffleView Name="RaffleView" IsVisible="{Binding RaffleInProgress }" />
     </StackPanel>
 
 </UserControl>

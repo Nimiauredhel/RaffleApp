@@ -4,11 +4,11 @@ using System.Threading.Tasks;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Models.TreeDataGrid;
-using Avalonia.Controls.Notifications;
+using Avalonia.Notification;
+using Avalonia.Threading;
 using DynamicData.Binding;
 using RaffleApp.Models;
 using ReactiveUI;
-using Notification = Avalonia.Controls.Notifications.Notification;
 
 namespace RaffleApp.ViewModels;
 
@@ -21,6 +21,7 @@ public class MainViewModel : ViewModelBase
     public ObservableCollection<Participant> CurrentParticipants => Data.CurrentParticipants;
     public ObservableCollection<Participant> RaffleEntries => raffleEntries;
     public FlatTreeDataGridSource<Participant> ParticipantSource { get; private set; }
+    public INotificationMessageManager NotificationManager { get; } = new NotificationMessageManager();
 
     public bool RaffleInProgress
     {
@@ -29,59 +30,73 @@ public class MainViewModel : ViewModelBase
     }
 
     private bool raffleInProgress = false;
-
+    private App app => Application.Current as App;
     private ObservableCollection<Participant> raffleEntries = new ObservableCollection<Participant>();
 
     public MainViewModel()
     {
-        this.WhenPropertyChanged(x => x.RaffleInProgress).Subscribe(delegate
-        {
-            ParticipantSource = new FlatTreeDataGridSource<Participant>(AllParticipants)
-            {
-                Columns =
-                {
-                    new TextColumn<Participant, string>
-                        ("Name", x => x.Name),
-                    new TextColumn<Participant, int>
-                        ("Consecutive Lost", x => x.ConsecutiveLost)
-                },
-            };
-        });
-
-        Data.TryAddParticipant("Gary");
-        Console.WriteLine("DSFSDF");
+        InitializeParticipantSource();
+        this.WhenPropertyChanged(x => x.RaffleInProgress).Subscribe(delegate { InitializeParticipantSource(); });
     }
 
-    public async Task DoRaffle()
+    public void NoParticipantsNotification()
+    {
+        this.NotificationManager
+            .CreateMessage()
+            .Accent("#1751C3")
+            .Background("#333")
+            .HasBadge("Warn")
+            .HasMessage("No Participants Entered!")
+            .Dismiss().WithDelay(TimeSpan.FromSeconds(5))
+            .Queue();
+    }
+
+    private void InitializeParticipantSource()
+    {
+        ParticipantSource = new FlatTreeDataGridSource<Participant>(AllParticipants)
+        {
+            Columns =
+            {
+                new TextColumn<Participant, string>
+                    ("Name", x => x.Name),
+                new TextColumn<Participant, int>
+                    ("Consecutive Lost", x => x.ConsecutiveLost)
+            },
+        };
+    }
+
+    public void BeginRaffle()
+    {
+        if (raffleInProgress) return;
+        Console.WriteLine("Beginning Raffle...");
+
+        if (CurrentParticipants.Count == 0)
+        {
+            Console.WriteLine("No Participants Entered!");
+            Dispatcher.UIThread.Post(()=> NoParticipantsNotification());
+            return;
+        }
+
+        if (CurrentParticipants.Count == 1)
+        {
+            CurrentParticipants[0].OnWon();
+            return;
+        }
+
+        RaffleInProgress = true;
+        _ = DoRaffle();
+    }
+
+    private async Task DoRaffle()
     {
         Console.WriteLine("Doing the raffle procedure (ViewModel).");
-        App app = (Application.Current as App);
-
         app.RaffleView.CurrentParticipantList.ItemsSource = CurrentParticipants;
-        RaffleInProgress = true;
-
-        if (app == null || CurrentParticipants.Count == 0)
-        {
-            Notification not = new Notification("Whoa!", "No participants!", NotificationType.Warning,
-                TimeSpan.FromSeconds(3));
-            RaffleInProgress = false;
-            return;
-        }
-        else if (CurrentParticipants.Count == 1)
-        {
-            RaffleEntries[0].OnWon();
-            RaffleEntries.Clear();
-            await Task.Delay(500);
-            RaffleInProgress = false;
-            return;
-        }
-
         RaffleEntries.Clear();
         Random random = new Random(DateTime.Now.Ticks.GetHashCode() + DateTime.Now.Nanosecond);
 
-        for (int i = 0; i < 4; i++)
+        for (int i = 0; i < CurrentParticipants.Count; i++)
         {
-            await Task.Delay(500);
+            await Task.Delay(500 / (i+1));
             CurrentParticipants.Shuffle(random);
         }
 
@@ -94,18 +109,19 @@ public class MainViewModel : ViewModelBase
 
             for (int j = 0; j < entryCount; j++)
             {
-                await Task.Delay(500);
+            await Task.Delay(500 / (j+1));
                 RaffleEntries.Add(participant);
             }
 
             CurrentParticipants.RemoveAt(i);
+            await Task.Delay(500 / (i+1));
         }
 
         app.RaffleView.CurrentParticipantList.ItemsSource = RaffleEntries;
 
-        for (int i = 0; i < 4; i++)
+        for (int i = 0; i < RaffleEntries.Count; i++)
         {
-            await Task.Delay(500);
+            await Task.Delay(500 / (i+1));
             RaffleEntries.Shuffle(random);
         }
 
@@ -126,6 +142,7 @@ public class MainViewModel : ViewModelBase
 
         RaffleEntries[0].OnWon();
         RaffleEntries.Clear();
+        Data.Save();
         await Task.Delay(1000);
         RaffleInProgress = false;
     }

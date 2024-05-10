@@ -4,6 +4,7 @@ using System;
 using System.Linq;
 using System.Threading;
 using Avalonia.Extensions.Controls;
+using RaffleApp.Models;
 
 namespace RaffleApp;
 
@@ -22,6 +23,8 @@ sealed class Program
             SilenceConsole();
             return builder.StartLinuxDrm(args, null, false);
         } 
+        
+        Data.Initialize();
         
         return builder.StartWithClassicDesktopLifetime(args);
     }

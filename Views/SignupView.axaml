@@ -8,65 +8,89 @@
              HorizontalAlignment="Stretch"
              VerticalAlignment="Stretch"
              x:Class="RaffleApp.Views.SignupView">
-    
+
     <Design.DataContext>
-            <!-- This only sets the DataContext for the previewer in an IDE,
+        <!-- This only sets the DataContext for the previewer in an IDE,
              to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
-            <vm:MainViewModel />
+        <vm:MainViewModel />
     </Design.DataContext>
-    
+
     <StackPanel HorizontalAlignment="Stretch"
                 VerticalAlignment="Stretch"
                 Orientation="Vertical"
                 Margin="10"
                 Spacing="10">
 
-        <StackPanel Orientation="Vertical">
+        <StackPanel Orientation="Vertical" Spacing="10">
             <StackPanel Orientation="Horizontal"
-                Margin="10"
-                Spacing="10"
-                HorizontalAlignment="Stretch"
-                VerticalAlignment="Stretch">
+                        Spacing="10"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center">
 
-                <!-- Current Participant List -->
-                <ItemsRepeater Name="CurrentParticipantList" ItemsSource="{Binding CurrentParticipants, Mode=OneWay}">
-                    <ItemsRepeater.ItemTemplate>
-                        <DataTemplate>
-                            <Border Margin="0,10,0,0"
-                                    CornerRadius="5"
-                                    BorderBrush="Blue" BorderThickness="1"
-                                    Padding="5">
-                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                                    <TextBlock Text="{Binding Name}" />
-                                    <TextBlock Margin="5 0" FontWeight="Bold"
-                                               Text="{Binding ConsecutiveLost}" />
-                                </StackPanel>
-                            </Border>
-                        </DataTemplate>
-                    </ItemsRepeater.ItemTemplate>
-                </ItemsRepeater>
                 <!--- Participant Entry Area -->
-                <StackPanel Orientation="Vertical">
-                    <Button Name="AddButton" Click="AddButton_OnClick">
-                        <TextBlock Text="Add Names From Box" HorizontalAlignment="Center"></TextBlock>
-                    </Button>
-                    <TextBox Name="AddBox" IsReadOnly="False" Height="300" Width="200" AcceptsReturn="True" TextWrapping="Wrap"></TextBox>
-                </StackPanel>
+                <Border BorderBrush="Blue" BorderThickness="2">
+                    <StackPanel Orientation="Vertical">
+                        <TextBlock Text="Manual Participant Entry" HorizontalAlignment="Center"></TextBlock>
+                        <TextBox Name="AddBox" IsReadOnly="False" Height="300" Width="200" AcceptsReturn="True"
+                                 TextWrapping="Wrap">
+                        </TextBox>
+                        <Button Name="AddButton" Background="LightSalmon" Click="AddButton_OnClick">
+                            <TextBlock Text="Add Participants" HorizontalAlignment="Center"></TextBlock>
+                        </Button>
+                    </StackPanel>
+                </Border>
+                <!-- Current Participant List -->
+                <Border BorderBrush="Blue" BorderThickness="2"
+                        HorizontalAlignment="Stretch" MinWidth="350">
+                    <StackPanel Orientation="Vertical">
+                        <TextBlock Text="Current Participants" HorizontalAlignment="Center"></TextBlock>
+                        <ItemsRepeater Name="CurrentParticipantList"
+                                       ItemsSource="{Binding CurrentParticipants, Mode=OneWay}">
+                            <ItemsRepeater.ItemTemplate>
+                                <DataTemplate>
+                                    <Border Margin="0,10,0,0"
+                                            CornerRadius="5"
+                                            BorderBrush="Blue" BorderThickness="1"
+                                            Padding="5">
+                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch"
+                                                    VerticalAlignment="Stretch">
+                                            <TextBlock Text="{Binding Name}" />
+                                            <TextBlock Margin="5 0" FontWeight="Bold"
+                                                       Text="{Binding ConsecutiveLost}" />
+                                        </StackPanel>
+                                    </Border>
+                                </DataTemplate>
+                            </ItemsRepeater.ItemTemplate>
+                        </ItemsRepeater>
+                    </StackPanel>
+                </Border>
             </StackPanel>
             <!-- "Start Raffle" Button -->
-            <Button Name="RaffleButton" HorizontalAlignment="Center" VerticalAlignment="Center"
-                    Click="RaffleButton_OnClick">
-                <TextBlock Text="GO!"></TextBlock>
-            </Button>
+            <Border BorderBrush="OrangeRed" BorderThickness="4" Padding="4"
+                    HorizontalAlignment="Center" Height="70" Width="70">
+                <Button Name="RaffleButton" Background="Salmon"
+                        HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                        Click="RaffleButton_OnClick">
+                    <TextBlock Text="GO!" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" FontWeight="UltraBold"></TextBlock>
+                </Button>
+            </Border>
             <!-- General Stats Table -->
-            <ScrollViewer HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" BringIntoViewOnFocusChange="True" IsScrollInertiaEnabled="True">
-                <TreeDataGrid Margin="20" Source="{Binding ParticipantSource, Mode=OneWay}"
-                              Name="AllParticipantsList"
-                              BorderThickness="1" BorderBrush="Gray"
-                              HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                </TreeDataGrid>
-            </ScrollViewer>
+            <Border BorderBrush="Blue" BorderThickness="2"
+                    Width="500" Height="200">
+                <ScrollViewer HorizontalScrollBarVisibility="Auto" AllowAutoHide="True"
+                              VerticalScrollBarVisibility="Auto"
+                              BringIntoViewOnFocusChange="True" IsScrollInertiaEnabled="True">
+                    <StackPanel Orientation="Vertical">
+                        <TextBlock Text="Stats" HorizontalAlignment="Center"></TextBlock>
+                        <TreeDataGrid Source="{Binding ParticipantSource, Mode=OneWay}"
+                                      Name="AllParticipantsList"
+                                      BorderThickness="1" BorderBrush="Gray"
+                                      HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                        </TreeDataGrid>
+                    </StackPanel>
+                </ScrollViewer>
+            </Border>
         </StackPanel>
     </StackPanel>
-    
+
 </UserControl>

@@ -32,7 +32,7 @@ public partial class App : Application
         
         mainView = new MainView()
         {
-            DataContext = mainViewModel, SignupView = signupView, RaffleView = raffleView
+             DataContext = mainViewModel, SignupView = signupView, RaffleView = raffleView
         };
 
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktopLifetime)
