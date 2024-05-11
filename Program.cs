@@ -6,6 +6,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using Avalonia.Extensions.Controls;
 using RaffleApp.Models;
+using RaffleApp.Models.Twitch;
+using RaffleApp.ViewModels.Twitch;
 
 namespace RaffleApp;
 
@@ -18,15 +20,20 @@ sealed class Program
     public static async Task<int> Main(string[] args)
     {
         var builder = BuildAvaloniaApp();
-        
+
         if (args.Contains("--drm"))
         {
             SilenceConsole();
             return builder.StartLinuxDrm(args, null, false);
-        } 
-        
-        Data.Initialize();
-        
+        }
+
+        RaffleData.Initialize();
+
+        if (!TwitchManager.Initialized)
+        {
+            TwitchManager.InitializeTwitchSettings();
+        }
+
         return builder.StartWithClassicDesktopLifetime(args);
     }
 
@@ -39,8 +46,8 @@ sealed class Program
                     Console.ReadKey(true);
             })
             { IsBackground = true }.Start();
-    } 
-    
+    }
+
     // Avalonia configuration, don't remove; also used by visual designer.
     public static AppBuilder BuildAvaloniaApp()
         => AppBuilder.Configure<App>()

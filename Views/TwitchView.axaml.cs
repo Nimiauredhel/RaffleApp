@@ -1,13 +1,24 @@
-using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
-using Avalonia.Markup.Xaml;
-using RaffleApp.Models;
+using Avalonia.Threading;
+using RaffleApp.Models.Twitch;
+using RaffleApp.ViewModels.Twitch;
 
 namespace RaffleApp.Views;
 
 public partial class TwitchView : UserControl
 {
+    private bool IsPaneOpen
+    {
+        get => CredentialsPanel.IsEnabled;
+        set => CredentialsPanel.IsEnabled = value;
+    }
+
+    private bool IsBotSwitchedOn
+    {
+        get => BotSwitch.IsChecked != null && BotSwitch.IsChecked.Value;
+    }
+
     public TwitchView()
     {
         InitializeComponent();
@@ -15,26 +26,26 @@ public partial class TwitchView : UserControl
 
     public void SetBotIsOn(object? sender, RoutedEventArgs e)
     {
-        TwitchManager.IsBotSwitchedOn = BotSwitch.IsChecked.Value;
-    }
-    
-    public void SetUsername(object? sender, RoutedEventArgs e)
-    {
-        TwitchManager.Username = UsernameBox.Text;
-    }
-    
-    public void SetPassword(object? sender, RoutedEventArgs e)
-    {
-        TwitchManager.Token = PasswordBox.Text;
-    }
-    
-    public void SetKeyword(object? sender, RoutedEventArgs e)
-    {
-        TwitchManager.Keyword = KeywordBox.Text;
+        if (IsBotSwitchedOn)
+        {
+            if (IsPaneOpen && TwitchManager.CurrentTwitchSettings.ValidateNoneMissing())
+            {
+                TwitchManager.SaveTwitchSettings();
+            }
+            else
+            {
+                SetPaneOpen(true);
+                return;
+            }
+        }
+
+        SetPaneOpen(!IsBotSwitchedOn);
+        TwitchManager.SetBotSwitchedOn(IsBotSwitchedOn);
     }
 
-    private void jk(object? sender, TextChangedEventArgs e)
+    private void SetPaneOpen(bool value)
     {
-        throw new System.NotImplementedException();
+        CredentialsPanel.IsVisible = value;
+        IsPaneOpen = value;
     }
 }

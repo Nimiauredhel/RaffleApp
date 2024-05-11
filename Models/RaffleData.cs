@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
@@ -8,17 +7,13 @@ using SQLite;
 
 namespace RaffleApp.Models;
 
-public static class Data
+public static class RaffleData
 {
     public static ObservableCollection<Participant> CurrentParticipants { get; } =
         new ObservableCollection<Participant>();
-
     public static ObservableCollection<Participant> AllParticipants { get; private set; } =
         new ObservableCollection<Participant>();
-
     private static readonly SQLiteConnection db = new SQLiteConnection(Path.Combine(AppContext.BaseDirectory, "raffle.sqlite"));
-
-    private static HashSet<Participant> toUpdate = new HashSet<Participant>();
 
     public static void Initialize()
     {

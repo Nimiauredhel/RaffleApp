@@ -17,8 +17,8 @@ public class ApplicationViewModel : ViewModelBase
 #pragma warning disable CA1822 // Mark members as static
 #pragma warning restore CA1822 // Mark members as static
 
-    public ObservableCollection<Participant> AllParticipants => Data.AllParticipants;
-    public ObservableCollection<Participant> CurrentParticipants => Data.CurrentParticipants;
+    public ObservableCollection<Participant> AllParticipants => RaffleData.AllParticipants;
+    public ObservableCollection<Participant> CurrentParticipants => RaffleData.CurrentParticipants;
     public ObservableCollection<Participant> RaffleEntries => raffleEntries;
     public FlatTreeDataGridSource<Participant> ParticipantSource { get; private set; }
     public INotificationMessageManager NotificationManager { get; } = new NotificationMessageManager();
@@ -142,7 +142,7 @@ public class ApplicationViewModel : ViewModelBase
 
         RaffleEntries[0].OnWon();
         RaffleEntries.Clear();
-        Data.Save();
+        RaffleData.Save();
         await Task.Delay(1000);
         RaffleInProgress = false;
     }

@@ -1,11 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Net.NetworkInformation;
 using System.Net.Sockets;
 using System.Threading.Tasks;
 
-namespace RaffleApp.Models;
+namespace RaffleApp.Models.Twitch;
 
 public class TwitchBot
 {
@@ -26,17 +25,20 @@ public class TwitchBot
     private readonly string username;
     private readonly string oAuthToken;
     private readonly string keyWord;
+    private readonly string channelName;
     private TcpClient tcpClient;
     private StreamReader streamReader;
     private StreamWriter streamWriter;
-    private PriorityQueue<string, int> messageQueue = new PriorityQueue<string, int>(8);
+    private  PriorityQueue<string, int> messageQueue = new PriorityQueue<string, int>(8);
 
-    public TwitchBot(string name, string token, string keyword)
+    public TwitchBot(TwitchSettings settings)
     {
-        username = name;
-        oAuthToken = token;
-        keyWord = keyword;
+        username = settings.Username;
+        oAuthToken = settings.Token;
+        keyWord = settings.Keyword;
+        channelName = settings.ChannelName;
 
+        //TODO: implement better task handling & cancellation, this is hack
         _ = BotRoutine();
     }
 
@@ -54,8 +56,8 @@ public class TwitchBot
         streamWriter = new StreamWriter(tcpClient.GetStream()) { NewLine = "\r\n", AutoFlush = true };
 
         SignedIn = await TrySignIn();
-        await streamWriter.WriteLineAsync(
-            "PRIVMSG #twitchchannelname :I'm a harmless bot joining this chat for testing, please do not judge");
+        // disabling this until I'm more confident about everything
+        //await streamWriter.WriteLineAsync($"PRIVMSG #{channelName} :I'm a harmless bot joining this chat for testing, please do not judge");
         _ = BotListenLoop();
 
         while (!shutDown)
@@ -71,10 +73,16 @@ public class TwitchBot
                     {
                         HandleMessage(element, priority);
                     }
+
+                    if (messageQueue.Count == 0)
+                    {
+                        await Task.Delay(10);
+                    }
                 }
             }
             else
             {
+                await Task.Delay(10);
                 Console.WriteLine($"Bot {username} not signed in.");
                 SignedIn = await TrySignIn();
             }
@@ -88,7 +96,12 @@ public class TwitchBot
         while (!shutDown)
         {
             string? line = await streamReader.ReadLineAsync();
-            if (line == null) continue;
+
+            if (line == null)
+            {
+                await Task.Delay(10);
+                continue;
+            }
 
             if (line.StartsWith(TwitchConstants.PING))
             {
@@ -97,6 +110,7 @@ public class TwitchBot
             else
             {
                 string[] split = line.Split(' ');
+
                 if (split[1] == TwitchConstants.PRIVMSG)
                 {
                     //Grab this name here
@@ -120,13 +134,26 @@ public class TwitchBot
         Console.WriteLine($"Bot {username} signing in.");
         await streamWriter.WriteLineAsync(string.Format(TwitchConstants.PASS_FORMAT, oAuthToken));
         await streamWriter.WriteLineAsync(string.Format(TwitchConstants.USER_FORMAT, username));
-        await streamWriter.WriteLineAsync($"JOIN #pikat");
+        await streamWriter.WriteLineAsync($"JOIN #{channelName}");
         return true;
     }
 
     private void HandleMessage(string messageBody, int messageType)
     {
         //TODO: actual message handling
-        Console.WriteLine(messageBody);
+        switch (messageType)
+        {
+            case 0:
+                _ = streamWriter.WriteLineAsync(TwitchConstants.PONG);
+                break;
+            case 1:
+                Console.WriteLine(messageBody);
+                break;
+            case 2:
+                Console.WriteLine(messageBody);
+                break;
+            default:
+                break;
+        }
     }
 }

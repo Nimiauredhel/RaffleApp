@@ -27,7 +27,7 @@ public partial class SignupView : UserControl
 
             for (int i = 0; i < names.Length; i++)
             {
-                Data.TryAddParticipant(names[i]);
+                RaffleData.TryAddParticipant(names[i]);
             }
             
             AddBox.Text = String.Empty;
