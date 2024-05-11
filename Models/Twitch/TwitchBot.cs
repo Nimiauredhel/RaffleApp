@@ -56,8 +56,11 @@ public class TwitchBot
         streamWriter = new StreamWriter(tcpClient.GetStream()) { NewLine = "\r\n", AutoFlush = true };
 
         SignedIn = await TrySignIn();
+        await streamWriter.WriteLineAsync($"JOIN #{channelName}");
+        
         // disabling this until I'm more confident about everything
         //await streamWriter.WriteLineAsync($"PRIVMSG #{channelName} :I'm a harmless bot joining this chat for testing, please do not judge");
+        
         Task listenLoop = BotListenLoop();
 
         while (!shutDown)
@@ -90,6 +93,8 @@ public class TwitchBot
             await Task.Delay(10);
         }
 
+        Console.WriteLine($"Bot {username} leaving channel {channelName}...");
+        await streamWriter.WriteLineAsync($"PART #{channelName}");
         Console.WriteLine($"Bot {username} shutting down...");
 
         while (listenLoop.Status == TaskStatus.Running)
@@ -146,7 +151,6 @@ public class TwitchBot
         Console.WriteLine($"Bot {username} signing in.");
         await streamWriter.WriteLineAsync(string.Format(TwitchConstants.PASS_FORMAT, oAuthToken));
         await streamWriter.WriteLineAsync(string.Format(TwitchConstants.USER_FORMAT, username));
-        await streamWriter.WriteLineAsync($"JOIN #{channelName}");
         return true;
     }
 
