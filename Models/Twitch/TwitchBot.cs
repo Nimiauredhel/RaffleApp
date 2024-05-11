@@ -29,7 +29,7 @@ public class TwitchBot
     private TcpClient tcpClient;
     private StreamReader streamReader;
     private StreamWriter streamWriter;
-    private  PriorityQueue<string, int> messageQueue = new PriorityQueue<string, int>(8);
+    private PriorityQueue<string, int> messageQueue = new PriorityQueue<string, int>(8);
 
     public TwitchBot(TwitchSettings settings)
     {
@@ -58,7 +58,7 @@ public class TwitchBot
         SignedIn = await TrySignIn();
         // disabling this until I'm more confident about everything
         //await streamWriter.WriteLineAsync($"PRIVMSG #{channelName} :I'm a harmless bot joining this chat for testing, please do not judge");
-        _ = BotListenLoop();
+        Task listenLoop = BotListenLoop();
 
         while (!shutDown)
         {
@@ -89,6 +89,18 @@ public class TwitchBot
 
             await Task.Delay(10);
         }
+
+        Console.WriteLine($"Bot {username} shutting down...");
+
+        while (listenLoop.Status == TaskStatus.Running)
+        {
+            await Task.Delay(10);
+        }
+
+        tcpClient.Dispose();
+        streamReader.Dispose();
+        streamWriter.Dispose();
+        Console.WriteLine($"Bot {username} shut down.");
     }
 
     private async Task BotListenLoop()
