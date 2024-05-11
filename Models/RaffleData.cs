@@ -13,17 +13,17 @@ public static class RaffleData
         new ObservableCollection<Participant>();
     public static ObservableCollection<Participant> AllParticipants { get; private set; } =
         new ObservableCollection<Participant>();
-    private static readonly SQLiteConnection db = new SQLiteConnection(Path.Combine(AppContext.BaseDirectory, "raffle.sqlite"));
+    private static readonly SQLiteConnection raffleDb = new SQLiteConnection(Path.Combine(AppContext.BaseDirectory, "raffle.sqlite"));
 
     public static void Initialize()
     {
-        db.CreateTable<Participant>();
-        AllParticipants = new ObservableCollection<Participant>(db.Table<Participant>().ToList());
+        raffleDb.CreateTable<Participant>();
+        AllParticipants = new ObservableCollection<Participant>(raffleDb.Table<Participant>().ToList());
     }
 
     public static void Save()
     {
-        db.UpdateAll(AllParticipants);
+        raffleDb.UpdateAll(AllParticipants);
     }
     
     public static void TryAddParticipant(string name)
@@ -40,17 +40,22 @@ public static class RaffleData
             { 
                 Console.WriteLine("Adding past participant to current participants.");
                 CurrentParticipants.Add(existing.Value);
-                db.InsertOrReplace(existing.Value);
+                raffleDb.InsertOrReplace(existing.Value);
             }
             else
             {
                 Console.WriteLine("Adding new participant to pool.");
                 Participant newParticipant = new Participant(name);
                 AllParticipants.Add(newParticipant);
-                db.InsertOrReplace(newParticipant);
+                raffleDb.InsertOrReplace(newParticipant);
                 CurrentParticipants.Add(newParticipant);
             }
         }
+    }
+    
+    public static void OnExit()
+    {
+        raffleDb.Close();
     }
 }
 

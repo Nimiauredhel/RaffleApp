@@ -1,6 +1,7 @@
 ﻿using Avalonia;
 using Avalonia.ReactiveUI;
 using System;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -33,7 +34,7 @@ sealed class Program
         {
             TwitchManager.InitializeTwitchSettings();
         }
-
+        
         return builder.StartWithClassicDesktopLifetime(args);
     }
 

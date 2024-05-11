@@ -1,7 +1,10 @@
+using System;
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
+using RaffleApp.Models;
 using RaffleApp.ViewModels;
+using RaffleApp.ViewModels.Twitch;
 using RaffleApp.Views;
 
 namespace RaffleApp;
@@ -16,7 +19,6 @@ public partial class App : Application
     private SignupView signupView;
     private RaffleView raffleView;
     private ApplicationViewModel _applicationViewModel = new ApplicationViewModel();
-    
 
     public override void Initialize()
     {
@@ -39,6 +41,8 @@ public partial class App : Application
             {
                 DataContext = _applicationViewModel, MainView = mainView
             };
+
+            desktopLifetime.Exit += OnExit;
         }
         else if (ApplicationLifetime is ISingleViewApplicationLifetime singleView)
         {
@@ -49,5 +53,11 @@ public partial class App : Application
         }
         
         base.OnFrameworkInitializationCompleted();
+    }
+
+    private void OnExit(object sender, ControlledApplicationLifetimeExitEventArgs args)
+    {
+        TwitchManager.OnExit();
+        RaffleData.OnExit();
     }
 }

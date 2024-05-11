@@ -13,7 +13,7 @@ public static class TwitchManager
     public static bool IsBotSwitchedOn { get; private set; } = false;
     
     private static TwitchBot? twitchBot = null;
-    private static readonly SQLiteConnection db =
+    private static readonly SQLiteConnection twitchSettingsDb =
         new SQLiteConnection(Path.Combine(AppContext.BaseDirectory, "twitch.sqlite"));
 
     public static void SetBotSwitchedOn(bool value)
@@ -42,7 +42,7 @@ public static class TwitchManager
 
     public static void SaveTwitchSettings()
     {
-        db.InsertOrReplace(CurrentTwitchSettings);
+        twitchSettingsDb.InsertOrReplace(CurrentTwitchSettings);
     }
 
     public static void InitializeTwitchSettings()
@@ -55,11 +55,11 @@ public static class TwitchManager
         }
 
         Initialized = true;
-        db.CreateTable<TwitchSettings>();
+        twitchSettingsDb.CreateTable<TwitchSettings>();
 
         try
         {
-            TableQuery<TwitchSettings> query = db.Table<TwitchSettings>();
+            TableQuery<TwitchSettings> query = twitchSettingsDb.Table<TwitchSettings>();
             CurrentTwitchSettings = query.FirstOrDefault(new TwitchSettings());
         }
         catch (Exception ex)
@@ -67,5 +67,15 @@ public static class TwitchManager
             Console.WriteLine(ex.Message);
             CurrentTwitchSettings = new TwitchSettings();
         }
+    }
+
+    public static void OnExit()
+    {
+        if (IsBotSwitchedOn)
+        {
+            IsBotSwitchedOn = false;
+        }
+        
+        twitchSettingsDb.Close();
     }
 }
