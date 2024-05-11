@@ -160,6 +160,16 @@ public class TwitchBot
                 break;
             case 1:
                 Console.WriteLine(messageBody);
+                // Check for keyword
+                if (keyWord.Length > 0)
+                {
+                    string[] userAndMessage = messageBody.Split(':');
+                    
+                    if (userAndMessage.Length > 1 && userAndMessage[1].Contains($"!{keyWord}"))
+                    {
+                       RaffleData.TryAddParticipant(userAndMessage[0]); 
+                    }
+                }
                 break;
             case 2:
                 Console.WriteLine(messageBody);
