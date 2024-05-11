@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Net.Security;
 using System.Net.Sockets;
+using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 
 namespace RaffleApp.Models.Twitch;
@@ -10,7 +12,7 @@ public class TwitchBot
 {
     private static class TwitchConstants
     {
-        public const int TWITCH_PORT = 6667;
+        public const int TWITCH_PORT = 6697;
         public const string TWITCH_IP = "irc.chat.twitch.tv";
         public const string PASS_FORMAT = "PASS {0}";
         public const string USER_FORMAT = "NICK {0}";
@@ -52,8 +54,15 @@ public class TwitchBot
         Console.WriteLine($"Bot {username} establishing connection...");
         tcpClient = new TcpClient();
         await tcpClient.ConnectAsync(TwitchConstants.TWITCH_IP, TwitchConstants.TWITCH_PORT);
-        streamReader = new StreamReader(tcpClient.GetStream());
-        streamWriter = new StreamWriter(tcpClient.GetStream()) { NewLine = "\r\n", AutoFlush = true };
+        SslStream sslStream = new SslStream(
+            tcpClient.GetStream(),
+            false,
+            ValidateServerCertificate,
+            null
+        ); 
+        await sslStream.AuthenticateAsClientAsync(TwitchConstants.TWITCH_IP);
+        streamReader = new StreamReader(sslStream);
+        streamWriter = new StreamWriter(sslStream) { NewLine = "\r\n", AutoFlush = true };
 
         SignedIn = await TrySignIn();
         await streamWriter.WriteLineAsync($"JOIN #{channelName}");
@@ -182,4 +191,9 @@ public class TwitchBot
                 break;
         }
     }
+    
+    private bool ValidateServerCertificate(object sender, X509Certificate certificate, X509Chain chain, SslPolicyErrors sslPolicyErrors)
+    {
+        return sslPolicyErrors == SslPolicyErrors.None;
+    } 
 }
