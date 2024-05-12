@@ -1,13 +1,15 @@
+using Avalonia.Animation;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
-using Avalonia.Threading;
-using RaffleApp.Models.Twitch;
+using Avalonia.Media;
 using RaffleApp.ViewModels.Twitch;
 
 namespace RaffleApp.Views;
 
 public partial class TwitchView : UserControl
 {
+    private BlurEffect credsBlur = new BlurEffect();
+    
     private bool IsPaneOpen
     {
         get => CredentialsPanel.IsEnabled;
@@ -22,6 +24,7 @@ public partial class TwitchView : UserControl
     public TwitchView()
     {
         InitializeComponent();
+        credsBlur.Radius = 30.0;
     }
 
     public void SetBotIsOn(object? sender, RoutedEventArgs e)
@@ -45,7 +48,8 @@ public partial class TwitchView : UserControl
 
     private void SetPaneOpen(bool value)
     {
-        CredentialsPanel.IsVisible = value;
+        CredentialsPanel.IsEnabled = value;
+        CredentialsPanel.Effect = value ? null : credsBlur ;
         IsPaneOpen = value;
     }
 }

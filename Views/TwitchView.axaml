@@ -27,7 +27,7 @@
                 <ScrollViewer HorizontalScrollBarVisibility="Auto" AllowAutoHide="True"
                               VerticalScrollBarVisibility="Auto"
                               BringIntoViewOnFocusChange="True" IsScrollInertiaEnabled="True">
-                    <StackPanel Name="CredentialsPanel" IsVisible="True">
+                    <StackPanel Name="CredentialsPanel" IsEnabled="True">
                         <TextBlock Text="Username" HorizontalAlignment="Center"></TextBlock>
                         <TextBox Name="UsernameBox" IsReadOnly="False" Height="30" Width="200" AcceptsReturn="False"
                                  Text="{Binding CurrentTwitchSettings.Username}" TextAlignment="Left"
