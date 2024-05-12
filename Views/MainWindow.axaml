@@ -1,25 +1,28 @@
-<AeroWindow xmlns="https://github.com/avaloniaui"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:ext="using:Avalonia.Extensions.Controls" 
-        mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="730"
-        xmlns:views="clr-namespace:RaffleApp.Views"
-        x:Class="RaffleApp.Views.MainWindow"
-        xmlns:vm="clr-namespace:RaffleApp.ViewModels"
-        x:DataType="vm:ApplicationViewModel"
-        Icon="/Assets/avalonia-logo.ico"
-        Title="Raffle App"
-        Position="960, 540" Width="600" Height="730"
-        Background="Transparent" CanResize="False" WindowStartupLocation="CenterScreen"
-        HorizontalAlignment="Center" VerticalAlignment="Center">
+<Window xmlns="https://github.com/avaloniaui"
+            xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+            xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+            xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+            xmlns:ext="using:Avalonia.Extensions.Controls"
+            mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="730"
+            xmlns:views="clr-namespace:RaffleApp.Views"
+            x:Class="RaffleApp.Views.MainWindow"
+            xmlns:vm="clr-namespace:RaffleApp.ViewModels"
+            x:DataType="vm:ApplicationViewModel"
+            Icon="/Assets/avalonia-logo.ico"
+            Title="Raffle App"
+            Position="960, 540"
+            Width="600" Height="750"
+            MinWidth="620" MinHeight="750"
+            MaxWidth="1200" MaxHeight="1460"
+            Background="Purple" CanResize="True" WindowStartupLocation="CenterScreen"
+            HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
     <Design.DataContext>
         <!-- This only sets the DataContext for the previewer in an IDE,
              to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
         <vm:ApplicationViewModel />
     </Design.DataContext>
 
-    <Panel VerticalAlignment="Top" HorizontalAlignment="Center">
-        <views:MainView Name="MainView"/>
+    <Panel VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+        <views:MainView Name="MainView" />
     </Panel>
-</AeroWindow>
+</Window>

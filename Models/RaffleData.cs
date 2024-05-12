@@ -11,9 +11,12 @@ public static class RaffleData
 {
     public static ObservableCollection<Participant> CurrentParticipants { get; } =
         new ObservableCollection<Participant>();
+
     public static ObservableCollection<Participant> AllParticipants { get; private set; } =
         new ObservableCollection<Participant>();
-    private static readonly SQLiteConnection raffleDb = new SQLiteConnection(Path.Combine(AppContext.BaseDirectory, "raffle.sqlite"));
+
+    private static readonly SQLiteConnection raffleDb =
+        new SQLiteConnection(Path.Combine(AppContext.BaseDirectory, "raffle.sqlite"));
 
     public static void Initialize()
     {
@@ -25,7 +28,7 @@ public static class RaffleData
     {
         raffleDb.UpdateAll(AllParticipants);
     }
-    
+
     public static void TryAddParticipant(string name)
     {
         if (CurrentParticipants.Any(participant => participant.Name == name))
@@ -35,9 +38,9 @@ public static class RaffleData
         else
         {
             Optional<Participant> existing = AllParticipants.FirstOrOptional(participant => participant.Name == name);
-            
+
             if (existing.HasValue)
-            { 
+            {
                 Console.WriteLine("Adding past participant to current participants.");
                 CurrentParticipants.Add(existing.Value);
                 raffleDb.InsertOrReplace(existing.Value);
@@ -52,7 +55,22 @@ public static class RaffleData
             }
         }
     }
-    
+
+    public static void TryRemoveParticipant(Participant toRemove)
+    {
+        if (AllParticipants.Contains(toRemove)) AllParticipants.Remove(toRemove);
+        
+        try
+        {
+            TableQuery<Participant> query = raffleDb.Table<Participant>();
+            query.Delete(participant => participant.Name == toRemove.Name);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+        }
+    }
+
     public static void OnExit()
     {
         raffleDb.Close();
@@ -61,8 +79,7 @@ public static class RaffleData
 
 public class Participant
 {
-    [Unique, PrimaryKey]
-    public string Name { get; set; }
+    [Unique, PrimaryKey] public string Name { get; set; }
     public int ConsecutiveLost { get; set; }
 
     public Participant(string name)
@@ -76,12 +93,12 @@ public class Participant
         Name = string.Empty;
         ConsecutiveLost = 0;
     }
-    
+
     public void OnLost()
     {
         ConsecutiveLost++;
     }
-    
+
     public void OnWon()
     {
         ConsecutiveLost = 0;

@@ -5,15 +5,17 @@
              xmlns:vm="clr-namespace:RaffleApp.ViewModels"
              x:DataType="vm:ApplicationViewModel"
              xmlns:views="clr-namespace:RaffleApp.Views"
-             mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="730"
+             mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="750"
+             MinWidth="620" MinHeight="750"
+             MaxWidth="1200" MaxHeight="1460"
              HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
              x:Class="RaffleApp.Views.MainSingleView">
-    
+
     <Design.DataContext>
         <!-- This only sets the DataContext for the previewer in an IDE,
              to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
         <vm:ApplicationViewModel />
     </Design.DataContext>
-    
-    <views:MainView Name="MainView"/>
+
+    <views:MainView Name="MainView" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" />
 </UserControl>

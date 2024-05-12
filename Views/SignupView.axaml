@@ -6,6 +6,8 @@
              xmlns:views="clr-namespace:RaffleApp.Views"
              x:DataType="vm:ApplicationViewModel"
              mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="730"
+             MinWidth="600" MinHeight="730"
+             MaxWidth="1200" MaxHeight="1460"
              HorizontalAlignment="Stretch"
              VerticalAlignment="Stretch"
              x:Class="RaffleApp.Views.SignupView">
@@ -67,34 +69,39 @@
                 </Border>
             </StackPanel>
             <!-- "Start Raffle" Button -->
-            <Border BorderBrush="OrangeRed" BorderThickness="4" Padding="4"
-                    HorizontalAlignment="Center" Height="70" Width="70">
-                <Button Name="RaffleButton" Background="Salmon"
-                        HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
-                        Click="RaffleButton_OnClick">
-                    <TextBlock Text="GO!" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" FontWeight="UltraBold"></TextBlock>
-                </Button>
+            <Border BorderBrush="Black" BorderThickness="4" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <Border BorderBrush="OrangeRed" BorderThickness="4" Padding="4"
+                        Background="Yellow"
+                        HorizontalAlignment="Center" MinHeight="70" MinWidth="70">
+                    <Button Name="RaffleButton" Background="Salmon"
+                            HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                            Click="RaffleButton_OnClick">
+                        <TextBlock Text="Begin Raffle" FontSize="20" HorizontalAlignment="Stretch"
+                                   VerticalAlignment="Stretch" FontWeight="UltraBold">
+                        </TextBlock>
+                    </Button>
+                </Border>
             </Border>
-            <StackPanel Orientation="Horizontal" Spacing="6">
-            <!-- General Stats Table -->
-            <Border BorderBrush="Blue" BorderThickness="2"
-                    VerticalAlignment="Top" HorizontalAlignment="Left"
-                    Width="330" Height="200">
-                <ScrollViewer HorizontalScrollBarVisibility="Auto" AllowAutoHide="True"
-                              VerticalScrollBarVisibility="Auto"
-                              BringIntoViewOnFocusChange="True" IsScrollInertiaEnabled="True">
-                    <StackPanel Orientation="Vertical">
-                        <TextBlock Text="Stats" HorizontalAlignment="Center"></TextBlock>
-                        <TreeDataGrid Source="{Binding ParticipantSource, Mode=OneWay}"
-                                      Name="AllParticipantsList"
-                                      BorderThickness="1" BorderBrush="Gray"
-                                      HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                        </TreeDataGrid>
-                    </StackPanel>
-                </ScrollViewer>
-            </Border>
-            <!-- Twitch Panel -->
-            <views:TwitchView></views:TwitchView>
+            <StackPanel Orientation="Horizontal" Spacing="6" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+                <!-- General Stats Table -->
+                <Border BorderBrush="Blue" BorderThickness="2"
+                        VerticalAlignment="Top" HorizontalAlignment="Left"
+                        MinWidth="330" Height="240">
+                    <ScrollViewer HorizontalScrollBarVisibility="Auto" AllowAutoHide="True"
+                                  VerticalScrollBarVisibility="Auto"
+                                  BringIntoViewOnFocusChange="True" IsScrollInertiaEnabled="True">
+                        <StackPanel Orientation="Vertical">
+                            <TextBlock Text="Stats" HorizontalAlignment="Center"></TextBlock>
+                            <TreeDataGrid Source="{Binding ParticipantSource, Mode=OneWay}"
+                                          Name="AllParticipantsList"
+                                          BorderThickness="1" BorderBrush="Gray"
+                                          HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                            </TreeDataGrid>
+                        </StackPanel>
+                    </ScrollViewer>
+                </Border>
+                <!-- Twitch Panel -->
+                <views:TwitchView VerticalAlignment="Top" HorizontalAlignment="Right"></views:TwitchView>
             </StackPanel>
         </StackPanel>
     </StackPanel>
