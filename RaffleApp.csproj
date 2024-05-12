@@ -39,12 +39,6 @@
         <PackageReference Include="SQLitePCLRaw.bundle_green" Version="2.1.8" />
         <PackageReference Include="SQLitePCLRaw.provider.dynamic_cdecl" Version="2.1.8" />
     </ItemGroup>
-
-    <!-- TODO: figure out whether I can make use of this, otherwise remove this reference -->
-    <!-- TODO: if this is useful, it needs to be moved inside the repo! -->
-    <ItemGroup>
-        <ProjectReference Include="../../otherrepos/AvaloniaAero/AvaloniaAero.csproj" />
-    </ItemGroup> 
     
     <ItemGroup>
       <AvaloniaXaml Remove="packages\**" />
