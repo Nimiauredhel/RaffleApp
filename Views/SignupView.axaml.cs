@@ -33,4 +33,10 @@ public partial class SignupView : UserControl
             AddBox.Text = String.Empty;
         }
     }
+
+    private void RefreshContainer_OnRefreshRequested(object? sender, RefreshRequestedEventArgs e)
+    {
+        RefreshCompletionDeferral deferral = e.GetDeferral();
+        deferral.Complete();
+    }
 }

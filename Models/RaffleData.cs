@@ -58,6 +58,7 @@ public static class RaffleData
 
     public static void TryRemoveParticipant(Participant toRemove)
     {
+        if (CurrentParticipants.Contains(toRemove)) CurrentParticipants.Remove(toRemove);
         if (AllParticipants.Contains(toRemove)) AllParticipants.Remove(toRemove);
         
         try
@@ -81,6 +82,8 @@ public class Participant
 {
     [Unique, PrimaryKey] public string Name { get; set; }
     public int ConsecutiveLost { get; set; }
+
+    public bool Participating => RaffleData.CurrentParticipants.Contains(this);
 
     public Participant(string name)
     {

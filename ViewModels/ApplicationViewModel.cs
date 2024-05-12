@@ -43,7 +43,7 @@ public class ApplicationViewModel : ViewModelBase
     public ApplicationViewModel()
     {
         InitializeParticipantSource();
-        this.WhenPropertyChanged(x => x.RaffleInProgress).Subscribe(delegate { InitializeParticipantSource(); });
+        this.WhenValueChanged(x => x.RaffleInProgress).Subscribe(delegate { InitializeParticipantSource(); });
     }
 
     public void NoParticipantsNotification()
@@ -64,11 +64,30 @@ public class ApplicationViewModel : ViewModelBase
         {
             Columns =
             {
+                new CheckBoxColumn<Participant>("DELETE", participant => false,
+                    (participant, b) => RaffleData.TryRemoveParticipant(participant)),
                 new TextColumn<Participant, string>
                     ("Name", x => x.Name),
                 new TextColumn<Participant, int>
                     ("Consecutive Lost", x => x.ConsecutiveLost),
-                new CheckBoxColumn<Participant>("Remove", participant => true, (participant, b) => RaffleData.TryRemoveParticipant(participant))
+                new CheckBoxColumn<Participant>("Is Currently Participating", participant => participant.Participating,
+                    (participant, b) =>
+                    {
+                        if (b)
+                        {
+                            if (!participant.Participating)
+                            {
+                                CurrentParticipants.Add(participant);
+                            }
+                        }
+                        else
+                        {
+                            if (participant.Participating)
+                            {
+                                CurrentParticipants.Remove(participant);
+                            }
+                        }
+                    }),
             }
         };
     }
@@ -102,7 +121,7 @@ public class ApplicationViewModel : ViewModelBase
         app.RaffleView.CurrentParticipantList.ItemsSource = CurrentParticipants;
         RaffleEntries.Clear();
         Random random = new Random(DateTime.Now.Ticks.GetHashCode() + DateTime.Now.Nanosecond);
-        
+
         await Task.Delay(1000);
         RaffleStateText = "Shuffling Participants!";
 
@@ -142,7 +161,7 @@ public class ApplicationViewModel : ViewModelBase
 
         await Task.Delay(1000);
         RaffleStateText = "Eliminating Tickets!";
-        
+
         while (RaffleEntries.Count > 1)
         {
             await Task.Delay(1500 / RaffleEntries.Count);
