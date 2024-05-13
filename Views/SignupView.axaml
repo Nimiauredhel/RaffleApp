@@ -31,11 +31,11 @@
                 <Border BorderBrush="Blue" BorderThickness="2"
                         HorizontalAlignment="Left" Width="240"
                         VerticalAlignment="Top">
-                    <StackPanel Orientation="Vertical" Background="Orchid">
+                    <StackPanel Orientation="Vertical" Background="DarkOrchid">
                         <StackPanel Orientation="Vertical">
-                            <TextBlock Text="Current Participants" FontSize="18" FontWeight="SemiBold"
-                                       HorizontalAlignment="Center" />
-                            <Border BorderBrush="Khaki" BorderThickness="1" Padding="10"
+                            <TextBlock Text="Current Participants" FontSize="22" FontWeight="Medium"
+                                       HorizontalAlignment="Center" Foreground="Violet" />
+                            <Border BorderBrush="Khaki" BorderThickness="4" Padding="2" Background="Orchid"
                                     MinHeight="64" Height="240" VerticalAlignment="Stretch"
                                     HorizontalAlignment="Stretch">
                                 <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
@@ -60,22 +60,23 @@
                 <!--- Manual Participant Entry Area -->
                 <Expander MaxHeight="120" Background="Orchid">
                     <Expander.Header> Manual Participant Entry </Expander.Header>
-                    <Border BorderBrush="Blue" BorderThickness="2" Height="64">
-                        <StackPanel Orientation="Vertical" VerticalAlignment="Top">
-                            <TextBox Name="AddBox" IsReadOnly="False" AcceptsReturn="True" Background="Plum"
-                                     HorizontalAlignment="Stretch" TextWrapping="Wrap" BorderBrush="Khaki">
-                            </TextBox>
-                            <Button Name="AddButton" Background="LightSalmon" Click="AddButton_OnClick">
-                                <TextBlock Text="Add Participants" HorizontalAlignment="Center"></TextBlock>
-                            </Button>
-                        </StackPanel>
-                    </Border>
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+                        <Border BorderBrush="Blue" BorderThickness="2" Height="64" Width="170" HorizontalAlignment="Stretch">
+                                <TextBox Name="AddBox" IsReadOnly="False" AcceptsReturn="True" Background="Plum"
+                                         HorizontalAlignment="Stretch" TextWrapping="Wrap" BorderBrush="Khaki"
+                                         CaretBrush="LightGreen">
+                                </TextBox>
+                        </Border>
+                                <Button Name="AddButton" Background="LightSalmon" Click="AddButton_OnClick" HorizontalAlignment="Right">
+                                    <TextBlock Text="Add" HorizontalAlignment="Center"></TextBlock>
+                                </Button>
+                    </StackPanel>
                 </Expander>
             </StackPanel>
             <!-- Twitch Bot Side -->
             <StackPanel Orientation="Vertical">
                 <!-- Twitch Bot Control Panel -->
-                <views:TwitchControlView VerticalAlignment="Top" HorizontalAlignment="Left"></views:TwitchControlView>
+                <views:TwitchControlView VerticalAlignment="Top" HorizontalAlignment="Left" />
             </StackPanel>
         </StackPanel>
         <!-- Middle Horizontal Stack -->

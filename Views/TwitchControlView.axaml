@@ -7,7 +7,6 @@
              xmlns:fluent="using:Avalonia.Themes.Fluent"
              xmlns:twitch="clr-namespace:RaffleApp.ViewModels.Twitch"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             MinHeight="200" MinWidth="100"
              HorizontalAlignment="Right" VerticalAlignment="Top"
              x:Class="RaffleApp.Views.TwitchControlView"
              x:DataType="twitch:TwitchManager">
@@ -18,52 +17,49 @@
         <twitch:TwitchManager />
     </Design.DataContext>
     
-    <StackPanel Orientation="Vertical" VerticalAlignment="Top" HorizontalAlignment="Right" Width="200">
+    <StackPanel Orientation="Vertical" VerticalAlignment="Top" HorizontalAlignment="Right"
+                Width="240" Background="DarkOrchid">
         <!--- Bot Credentials Entry -->
         <Border BorderBrush="Blue" BorderThickness="2" Padding="2">
             <StackPanel Orientation="Vertical" Spacing="8" VerticalAlignment="Stretch">
                 <!-- Bot Activation Switch -->
                 <ToggleSwitch Name="BotSwitch" HorizontalAlignment="Center"
                               Click="SetBotIsOn">
-                    <TextBlock Text="Twitch-Bot" FontSize="20" FontStyle="Italic"
-                               HorizontalAlignment="Center">
+                    <TextBlock Text="Twitch-Bot" FontSize="20" Foreground="Violet"
+                               FontWeight="Medium" HorizontalAlignment="Center">
                     </TextBlock>
                 </ToggleSwitch>
                 <!-- Bot Settings Foldout -->
-                <Expander> <Expander.Header> Bot Settings </Expander.Header>
-                        <Border BorderBrush="Khaki" BorderThickness="1" Padding="10" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
-                    <ScrollViewer HorizontalScrollBarVisibility="Auto" AllowAutoHide="True"
-                                  VerticalScrollBarVisibility="Auto"
-                                  BringIntoViewOnFocusChange="True" IsScrollInertiaEnabled="True">
+                <Expander Background="Orchid"> <Expander.Header> Bot Settings </Expander.Header>
+                        <Border BorderBrush="Khaki" BorderThickness="2" Padding="2" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
                         <StackPanel Name="CredentialsPanel" IsEnabled="True">
                             <TextBlock Text="Username" HorizontalAlignment="Center"></TextBlock>
-                            <TextBox Name="UsernameBox" IsReadOnly="False" Height="30" Width="200"
-                                     AcceptsReturn="False"
+                            <TextBox Name="UsernameBox" Height="32" Width="200"
+                                     AcceptsReturn="False" Background="Plum"
                                      Text="{Binding CurrentTwitchSettings.Username}" TextAlignment="Left"
-                                     TextWrapping="NoWrap" HorizontalAlignment="Center"
-                                     HorizontalContentAlignment="Left">
+                                     TextWrapping="NoWrap" HorizontalAlignment="Stretch"
+                                     HorizontalContentAlignment="Left" CaretBrush="LightGreen">
                             </TextBox>
                             <TextBlock Text="OAuth Token" HorizontalAlignment="Center"></TextBlock>
-                            <TextBox Name="PasswordBox" IsReadOnly="False" Height="30" Width="200"
-                                     AcceptsReturn="False"
-                                     TextWrapping="NoWrap" HorizontalAlignment="Center"
-                                     HorizontalContentAlignment="Left"
+                            <TextBox Name="PasswordBox" Height="32" Width="200"
+                                     AcceptsReturn="False" Background="Plum"
+                                     TextWrapping="NoWrap" HorizontalAlignment="Stretch"
+                                     HorizontalContentAlignment="Left" CaretBrush="LightGreen"
                                      Text="{Binding CurrentTwitchSettings.Token}" TextAlignment="Left" PasswordChar="X">
                             </TextBox>
                             <TextBlock Text="Key Word" HorizontalAlignment="Center"></TextBlock>
-                            <TextBox Name="KeywordBox" IsReadOnly="False" Height="30" Width="200" AcceptsReturn="False"
-                                     TextWrapping="NoWrap" HorizontalAlignment="Center"
-                                     HorizontalContentAlignment="Left"
+                            <TextBox Name="KeywordBox" Height="32" Width="200" AcceptsReturn="False" Background="Plum"
+                                     TextWrapping="NoWrap" HorizontalAlignment="Stretch"
+                                     HorizontalContentAlignment="Left" CaretBrush="LightGreen"
                                      Text="{Binding CurrentTwitchSettings.Keyword}" TextAlignment="Left">
                             </TextBox>
                             <TextBlock Text="Channel Name" HorizontalAlignment="Center"></TextBlock>
-                            <TextBox Name="ChannelBox" IsReadOnly="False" Height="30" Width="200" AcceptsReturn="False"
+                            <TextBox Name="ChannelBox" Height="32" Width="200" AcceptsReturn="False" Background="Plum"
                                      Text="{Binding CurrentTwitchSettings.ChannelName}" TextAlignment="Left"
-                                     TextWrapping="NoWrap" HorizontalAlignment="Center"
-                                     HorizontalContentAlignment="Left">
+                                     TextWrapping="NoWrap" HorizontalAlignment="Stretch"
+                                     HorizontalContentAlignment="Left" CaretBrush="LightGreen">
                             </TextBox>
                         </StackPanel>
-                    </ScrollViewer>
                             </Border>
                 </Expander>
             </StackPanel>
