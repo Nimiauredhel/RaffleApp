@@ -27,7 +27,8 @@ The Twitch-Bot On/Off switch instantly starts and terminates the bot's listening
 It may take the bot a moment to log-in. There's not a lot of feedback at the moment for what the bot is doing and whether it encountered any issues, but that's coming very soon.
 
 ## Next Steps
-A selection of features I would like to add in the near future
+A selection of features I would like to add in the near future:
+
 *Add a text feed of what the bot is doing and whether it encountered any issues, similar to a developer console
 *Allow the bot to be more talkative and notify chatters of events such as being added to the raffle, starting the raffle, and declaring the winner
 *Implement secure local storage of Twitch credentials, particularly the bot's OAuth token
