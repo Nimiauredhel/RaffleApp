@@ -4,8 +4,6 @@ using System.Threading.Tasks;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Models.TreeDataGrid;
-using Avalonia.Notification;
-using Avalonia.Threading;
 using DynamicData.Binding;
 using RaffleApp.Models;
 using ReactiveUI;
@@ -21,7 +19,6 @@ public class ApplicationViewModel : ViewModelBase
     public ObservableCollection<Participant> CurrentParticipants => RaffleData.CurrentParticipants;
     public ObservableCollection<Participant> RaffleEntries => raffleEntries;
     public FlatTreeDataGridSource<Participant> ParticipantSource { get; private set; }
-    public INotificationMessageManager NotificationManager { get; } = new NotificationMessageManager();
 
     public bool RaffleInProgress
     {
@@ -46,31 +43,19 @@ public class ApplicationViewModel : ViewModelBase
         this.WhenValueChanged(x => x.RaffleInProgress).Subscribe(delegate { InitializeParticipantSource(); });
     }
 
-    public void NoParticipantsNotification()
-    {
-        this.NotificationManager
-            .CreateMessage()
-            .Accent("#1751C3")
-            .Background("#333")
-            .HasBadge("Warn")
-            .HasMessage("No Participants Entered!")
-            .Dismiss().WithDelay(TimeSpan.FromSeconds(5))
-            .Queue();
-    }
-
     private void InitializeParticipantSource()
     {
         ParticipantSource = new FlatTreeDataGridSource<Participant>(AllParticipants)
         {
             Columns =
             {
-                new CheckBoxColumn<Participant>("DELETE", participant => false,
+                new CheckBoxColumn<Participant>("DEL", participant => false,
                     (participant, b) => RaffleData.TryRemoveParticipant(participant)),
                 new TextColumn<Participant, string>
                     ("Name", x => x.Name),
                 new TextColumn<Participant, int>
                     ("Consecutive Lost", x => x.ConsecutiveLost),
-                new CheckBoxColumn<Participant>("Is Currently Participating", participant => participant.Participating,
+                new CheckBoxColumn<Participant>("In Current Raffle?", participant => participant.Participating,
                     (participant, b) =>
                     {
                         if (b)
@@ -100,7 +85,6 @@ public class ApplicationViewModel : ViewModelBase
         if (CurrentParticipants.Count == 0)
         {
             Console.WriteLine("No Participants Entered!");
-            Dispatcher.UIThread.Post(() => NoParticipantsNotification());
             return;
         }
 

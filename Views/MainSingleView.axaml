@@ -5,9 +5,8 @@
              xmlns:vm="clr-namespace:RaffleApp.ViewModels"
              x:DataType="vm:ApplicationViewModel"
              xmlns:views="clr-namespace:RaffleApp.Views"
-             mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="750"
-             MinWidth="620" MinHeight="750"
-             MaxWidth="1200" MaxHeight="1460"
+             mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="800"
+             MinWidth="600" MinHeight="800"
              HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
              x:Class="RaffleApp.Views.MainSingleView">
 
