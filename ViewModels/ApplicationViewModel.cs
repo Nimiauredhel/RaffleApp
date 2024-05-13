@@ -4,6 +4,8 @@ using System.Threading.Tasks;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Models.TreeDataGrid;
+using Avalonia.Data;
+using Avalonia.Media;
 using DynamicData.Binding;
 using RaffleApp.Models;
 using ReactiveUI;
@@ -50,7 +52,13 @@ public class ApplicationViewModel : ViewModelBase
             Columns =
             {
                 new CheckBoxColumn<Participant>("DEL", participant => false,
-                    (participant, b) => RaffleData.TryRemoveParticipant(participant)),
+                    (participant, b) =>
+                    {
+                        if (b)
+                        {
+                            _ = RaffleData.TryRemoveParticipant(participant);
+                        }
+                    }),
                 new TextColumn<Participant, string>
                     ("Name", x => x.Name),
                 new TextColumn<Participant, int>
@@ -80,7 +88,7 @@ public class ApplicationViewModel : ViewModelBase
     public void BeginRaffle()
     {
         if (raffleInProgress) return;
-        Console.WriteLine("Beginning Raffle...");
+        Console.WriteLine("Requested raffle...");
 
         if (CurrentParticipants.Count == 0)
         {
@@ -90,16 +98,28 @@ public class ApplicationViewModel : ViewModelBase
 
         if (CurrentParticipants.Count == 1)
         {
+            Console.WriteLine("Only one participant, they win by default!");
             CurrentParticipants[0].OnWon();
             return;
         }
 
-        RaffleInProgress = true;
         _ = DoRaffle();
     }
 
     private async Task DoRaffle()
     {
+        Optional<bool> confirmed = await Dialogs.ConfirmationDialog(
+            "Are you sure? This will decide the winner and cannot be undone.", "Let's go!", "Not yet.", Brushes.Red,
+            Brushes.Yellow, new Thickness(5));
+        while (!confirmed.HasValue) await Task.Delay(10);
+
+        if (confirmed.Value == false)
+        {
+            Console.WriteLine("Aborting raffle");
+            return;
+        }
+
+        RaffleInProgress = true;
         Console.WriteLine("Doing the raffle procedure.");
         RaffleStateText = "Beginning Raffle!";
         app.RaffleView.CurrentParticipantList.ItemsSource = CurrentParticipants;

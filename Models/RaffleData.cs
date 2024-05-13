@@ -2,7 +2,11 @@ using System;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
+using Avalonia;
+using Avalonia.Media;
 using DynamicData.Kernel;
+using RaffleApp.ViewModels;
 using SQLite;
 
 namespace RaffleApp.Models;
@@ -56,8 +60,17 @@ public static class RaffleData
         }
     }
 
-    public static void TryRemoveParticipant(Participant toRemove)
+    public static async Task TryRemoveParticipant(Participant toRemove)
     {
+        Avalonia.Data.Optional<bool> confirmed = await Dialogs.ConfirmationDialog("Are you sure? This will delete the participant from the database and cannot be undone.", "Yes.", "No.", Brushes.Red, Brushes.Yellow, new Thickness(5));
+        while (!confirmed.HasValue) await Task.Delay(10);
+        
+        if (confirmed.Value == false)
+        {
+           Console.WriteLine("Cancelled removing participant.");
+           return;
+        }
+        
         if (CurrentParticipants.Contains(toRemove)) CurrentParticipants.Remove(toRemove);
         if (AllParticipants.Contains(toRemove)) AllParticipants.Remove(toRemove);
         

@@ -1,5 +1,3 @@
-using System;
-using System.Threading.Tasks;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using RaffleApp.Models;
@@ -30,11 +28,5 @@ public partial class SignupView : UserControl
         }
             
         AddBox.Text = string.Empty;
-    }
-
-    private void RefreshContainer_OnRefreshRequested(object? sender, RefreshRequestedEventArgs e)
-    {
-        RefreshCompletionDeferral deferral = e.GetDeferral();
-        deferral.Complete();
     }
 }

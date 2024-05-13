@@ -5,13 +5,14 @@
              xmlns:vm="clr-namespace:RaffleApp.ViewModels"
              xmlns:ext="using:Avalonia.Extensions.Controls"
              xmlns:actipro="http://schemas.actiprosoftware.com/avaloniaui"
+             xmlns:dialogs="using:AvaloniaDialogs.Views"
              x:DataType="vm:ApplicationViewModel"
              mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="800"
              Width="600" Height="800"
              HorizontalAlignment="Stretch"
              VerticalAlignment="Stretch"
              Background="MediumPurple" Foreground="Black" FontFamily="Arial" FontWeight="UltraBlack" FontSize="18"
-             BorderBrush="Moccasin" BorderThickness="4" CornerRadius="10"
+             BorderBrush="DarkMagenta" BorderThickness="4" CornerRadius="10"
              xmlns:views="clr-namespace:RaffleApp.Views"
              x:Class="RaffleApp.Views.MainView">
 
@@ -21,10 +22,12 @@
         <vm:ApplicationViewModel />
     </Design.DataContext>
 
+    <dialogs:ReactiveDialogHost CloseOnClickAway="False" DialogMargin="0">
     <Border BorderBrush="Gray" BorderThickness="2" CornerRadius="10" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
             <Panel x:DataType="vm:ApplicationViewModel">
                 <views:SignupView Name="SignupView" IsVisible="{Binding !RaffleInProgress }" />
                 <views:RaffleView Name="RaffleView" IsVisible="{Binding RaffleInProgress }" />
             </Panel>
     </Border>
+    </dialogs:ReactiveDialogHost >
 </UserControl>

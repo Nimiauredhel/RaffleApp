@@ -4,6 +4,7 @@
              xmlns:local="using:RaffleApp"
              xmlns:actipro="http://schemas.actiprosoftware.com/avaloniaui"
              xmlns:generation="using:ActiproSoftware.UI.Avalonia.Themes.Generation"
+             xmlns:dialogHostAvalonia="clr-namespace:DialogHostAvalonia;assembly=DialogHost.Avalonia"
              RequestedThemeVariant="Default">
              <!-- "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available options. -->
 
@@ -16,6 +17,7 @@
         <StyleInclude Source="avares://Avalonia.Controls.DataGrid/Themes/Fluent.xaml"/> 
         <StyleInclude Source="avares://Avalonia.Controls.TreeDataGrid/Themes/Fluent.axaml"/> 
         <actipro:ModernTheme Includes="NativeDataGrid" />
+        <dialogHostAvalonia:DialogHostStyles/>
     </Application.Styles>
              
 </Application>
