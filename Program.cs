@@ -1,13 +1,10 @@
 ﻿using Avalonia;
-using Avalonia.ReactiveUI;
 using System;
-using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Avalonia.Extensions.Controls;
+using Avalonia.ReactiveUI;
 using RaffleApp.Models;
-using RaffleApp.Models.Twitch;
 using RaffleApp.ViewModels.Twitch;
 
 namespace RaffleApp;
@@ -54,7 +51,6 @@ sealed class Program
         => AppBuilder.Configure<App>()
             .UsePlatformDetect()
             .WithInterFont()
-            .UseDoveExtensions()
             .LogToTrace()
             .UseReactiveUI();
 }

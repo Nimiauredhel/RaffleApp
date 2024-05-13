@@ -3,8 +3,6 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="clr-namespace:RaffleApp.ViewModels"
-             xmlns:ext="using:Avalonia.Extensions.Controls"
-             xmlns:actipro="http://schemas.actiprosoftware.com/avaloniaui"
              xmlns:dialogs="using:AvaloniaDialogs.Views"
              x:DataType="vm:ApplicationViewModel"
              mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="800"
