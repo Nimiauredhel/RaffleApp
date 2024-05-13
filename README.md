@@ -10,6 +10,7 @@ I'll add actual releases soon, together with some of the more important missing 
 ### Usage
 1. Add participants to the current raffle. This can either be done with the provided Twitch integration, or manually via a text box.
 2. Push the big "Start Raffle!" button to watch as the app does some shuffling and elimination to select a winner.
+
 Each participant gets one ticket, plus as many tickets as the number of their "consecutive losses".
 When a raffle is over, the winner has their "consecutive losses" zeroed, while every other participant has it incremented by one.
 This mechanic is intended for situations where you'd like to favor people who keep showing up to raffles but haven't had a win.
