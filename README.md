@@ -29,8 +29,8 @@ It may take the bot a moment to log-in. There's not a lot of feedback at the mom
 ## Next Steps
 A selection of features I would like to add in the near future:
 
-*Add a text feed of what the bot is doing and whether it encountered any issues, similar to a developer console
-*Allow the bot to be more talkative and notify chatters of events such as being added to the raffle, starting the raffle, and declaring the winner
-*Implement secure local storage of Twitch credentials, particularly the bot's OAuth token
-*Add the ability the set a timer for the bot's listening activity, which executes the raffle when it ends
-*A ton of UI stuff that still isn't quite right
+* Add a text feed of what the bot is doing and whether it encountered any issues, similar to a developer console
+* Allow the bot to be more talkative and notify chatters of events such as being added to the raffle, starting the raffle, and declaring the winner
+* Implement secure local storage of Twitch credentials, particularly the bot's OAuth token
+* Add the ability the set a timer for the bot's listening activity, which executes the raffle when it ends
+* A ton of UI stuff that still isn't quite right
