@@ -9,7 +9,7 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              MinHeight="200" MinWidth="100"
              HorizontalAlignment="Right" VerticalAlignment="Top"
-             x:Class="RaffleApp.Views.TwitchView"
+             x:Class="RaffleApp.Views.TwitchControlView"
              x:DataType="twitch:TwitchManager">
 
     <Design.DataContext>
@@ -18,21 +18,20 @@
         <twitch:TwitchManager />
     </Design.DataContext>
     
-    <StackPanel Orientation="Vertical" VerticalAlignment="Top" HorizontalAlignment="Right">
+    <StackPanel Orientation="Vertical" VerticalAlignment="Top" HorizontalAlignment="Right" Width="200">
         <!--- Bot Credentials Entry -->
-        <Border BorderBrush="Blue" BorderThickness="2" Padding="2"
-                VerticalAlignment="Top" HorizontalAlignment="Right">
+        <Border BorderBrush="Blue" BorderThickness="2" Padding="2">
             <StackPanel Orientation="Vertical" Spacing="8" VerticalAlignment="Stretch">
+                <!-- Bot Activation Switch -->
                 <ToggleSwitch Name="BotSwitch" HorizontalAlignment="Center"
                               Click="SetBotIsOn">
                     <TextBlock Text="Twitch-Bot" FontSize="20" FontStyle="Italic"
                                HorizontalAlignment="Center">
                     </TextBlock>
                 </ToggleSwitch>
-                <Expander>
-                    <Expander.Header>
-                        Bot Settings
-                    </Expander.Header>
+                <!-- Bot Settings Foldout -->
+                <Expander> <Expander.Header> Bot Settings </Expander.Header>
+                        <Border BorderBrush="Khaki" BorderThickness="1" Padding="10" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
                     <ScrollViewer HorizontalScrollBarVisibility="Auto" AllowAutoHide="True"
                                   VerticalScrollBarVisibility="Auto"
                                   BringIntoViewOnFocusChange="True" IsScrollInertiaEnabled="True">
@@ -65,6 +64,7 @@
                             </TextBox>
                         </StackPanel>
                     </ScrollViewer>
+                            </Border>
                 </Expander>
             </StackPanel>
         </Border>

@@ -16,22 +16,20 @@ public partial class SignupView : UserControl
 
     private void RaffleButton_OnClick(object? sender, RoutedEventArgs e)
     { 
-        (DataContext as ApplicationViewModel).BeginRaffle();
+        (DataContext as ApplicationViewModel)?.BeginRaffle();
     }
 
     private void AddButton_OnClick(object? sender, RoutedEventArgs e)
     {
-        if (AddBox.Text != null && AddBox.Text.Length > 0)
-        {
-            string[] names = AddBox.Text.Split('\n');
+        if (AddBox.Text == null || AddBox.Text.Length <= 0) return;
+        string[] names = AddBox.Text.Split('\n');
 
-            for (int i = 0; i < names.Length; i++)
-            {
-                RaffleData.TryAddParticipant(names[i]);
-            }
-            
-            AddBox.Text = String.Empty;
+        for (int i = 0; i < names.Length; i++)
+        {
+            RaffleData.TryAddParticipant(names[i]);
         }
+            
+        AddBox.Text = string.Empty;
     }
 
     private void RefreshContainer_OnRefreshRequested(object? sender, RefreshRequestedEventArgs e)

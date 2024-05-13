@@ -22,14 +22,14 @@
         <vm:ApplicationViewModel />
     </Design.DataContext>
 
-            <Border BorderBrush="Gray" BorderThickness="2" CornerRadius="10" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-    <Viewbox Stretch="Uniform">
-        <StackPanel Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
-                    x:DataType="vm:ApplicationViewModel">
-            <views:SignupView Name="SignupView" IsVisible="{Binding !RaffleInProgress }" />
-            <views:RaffleView Name="RaffleView" IsVisible="{Binding RaffleInProgress }" />
-        </StackPanel>
-    </Viewbox>
-                </Border>
-
+    <Border BorderBrush="Gray" BorderThickness="2" CornerRadius="10" HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch">
+        <Viewbox Stretch="Uniform" StretchDirection="Both">
+            <StackPanel Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                        x:DataType="vm:ApplicationViewModel">
+                <views:SignupView Name="SignupView" IsVisible="{Binding !RaffleInProgress }" />
+                <views:RaffleView Name="RaffleView" IsVisible="{Binding RaffleInProgress }" />
+            </StackPanel>
+        </Viewbox>
+    </Border>
 </UserControl>

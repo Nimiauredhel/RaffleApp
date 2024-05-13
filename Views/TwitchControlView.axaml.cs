@@ -6,7 +6,7 @@ using RaffleApp.ViewModels.Twitch;
 
 namespace RaffleApp.Views;
 
-public partial class TwitchView : UserControl
+public partial class TwitchControlView : UserControl
 {
     private BlurEffect credsBlur = new BlurEffect();
     
@@ -21,7 +21,7 @@ public partial class TwitchView : UserControl
         get => BotSwitch.IsChecked != null && BotSwitch.IsChecked.Value;
     }
 
-    public TwitchView()
+    public TwitchControlView()
     {
         InitializeComponent();
         credsBlur.Radius = 30.0;
