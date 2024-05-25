@@ -3,7 +3,6 @@
              x:Class="RaffleApp.App"
              xmlns:local="using:RaffleApp"
              xmlns:actipro="http://schemas.actiprosoftware.com/avaloniaui"
-             xmlns:generation="using:ActiproSoftware.UI.Avalonia.Themes.Generation"
              xmlns:dialogHostAvalonia="clr-namespace:DialogHostAvalonia;assembly=DialogHost.Avalonia"
              RequestedThemeVariant="Default">
              <!-- "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available options. -->
