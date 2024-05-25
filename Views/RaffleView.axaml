@@ -8,16 +8,16 @@
              Margin="10"
              HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
              x:Class="RaffleApp.Views.RaffleView"
-             x:DataType="viewModels:ApplicationViewModel">
+             x:DataType="viewModels:RaffleViewModel">
 
     <Design.DataContext>
         <!-- This only sets the DataContext for the previewer in an IDE,
              to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
-        <vm:ApplicationViewModel />
+        <vm:RaffleViewModel />
     </Design.DataContext>
 
     <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
-                Spacing="2" x:DataType="viewModels:ApplicationViewModel">
+                Spacing="2" x:DataType="viewModels:RaffleViewModel">
         <!-- Current Participants -->
         <StackPanel>
             <TextBlock Text="Participants" FontStyle="Italic" HorizontalAlignment="Center" FontSize="20"
@@ -25,7 +25,7 @@
             </TextBlock>
             <Border Background="Plum" BorderBrush="Indigo" BorderThickness="10" VerticalAlignment="Stretch"
                     HorizontalAlignment="Stretch" UseLayoutRounding="True"
-                    x:DataType="viewModels:ApplicationViewModel">
+                    x:DataType="viewModels:RaffleViewModel">
                 <ItemsRepeater Name="CurrentParticipantList"
                                ItemsSource="{Binding CurrentParticipants, Mode=OneWay}"
                                HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
@@ -63,7 +63,7 @@
             </TextBlock>
             <Border Background="Plum" BorderBrush="Indigo" BorderThickness="10" VerticalAlignment="Stretch"
                     HorizontalAlignment="Stretch" UseLayoutRounding="True"
-                    x:DataType="viewModels:ApplicationViewModel">
+                    x:DataType="viewModels:RaffleViewModel">
                 <ItemsRepeater Name="RaffleBox"
                                ItemsSource="{Binding RaffleEntries, Mode=OneWay}"
                                HorizontalAlignment="Stretch" VerticalAlignment="Stretch"

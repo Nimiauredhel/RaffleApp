@@ -62,7 +62,8 @@ public static class RaffleData
 
     public static async Task TryRemoveParticipant(Participant toRemove)
     {
-        Avalonia.Data.Optional<bool> confirmed = await Dialogs.ConfirmationDialog("Are you sure? This will delete the participant from the database and cannot be undone.", "Yes.", "No.", Brushes.Red, Brushes.Yellow, new Thickness(5));
+        Avalonia.Data.Optional<bool> confirmed = await Dialogs.ConfirmationDialog("Are you sure?\nThis will delete the participant from the database and cannot be undone.", "Yes.", "No.", 
+            Brushes.Red, Brushes.Yellow, new Thickness(5), Brushes.Black, 24);
         while (!confirmed.HasValue) await Task.Delay(10);
         
         if (confirmed.Value == false)

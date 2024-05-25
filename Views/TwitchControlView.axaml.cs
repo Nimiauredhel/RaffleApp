@@ -31,9 +31,9 @@ public partial class TwitchControlView : UserControl
     {
         if (IsBotSwitchedOn)
         {
-            if (IsPaneOpen && TwitchManager.CurrentTwitchSettings.ValidateNoneMissing())
+            if (IsPaneOpen && TwitchViewModel.CurrentTwitchSettings.ValidateNoneMissing())
             {
-                TwitchManager.SaveTwitchSettings();
+                TwitchViewModel.SaveTwitchSettings();
             }
             else
             {
@@ -43,7 +43,7 @@ public partial class TwitchControlView : UserControl
         }
 
         SetPaneOpen(!IsBotSwitchedOn);
-        TwitchManager.SetBotSwitchedOn(IsBotSwitchedOn);
+        TwitchViewModel.SetBotSwitchedOn(IsBotSwitchedOn);
     }
 
     private void SetPaneOpen(bool value)

@@ -6,7 +6,7 @@
             xmlns:views="clr-namespace:RaffleApp.Views"
             x:Class="RaffleApp.Views.MainWindow"
             xmlns:vm="clr-namespace:RaffleApp.ViewModels"
-            x:DataType="vm:ApplicationViewModel"
+            x:DataType="vm:RaffleViewModel"
             Icon="/Assets/avalonia-logo.ico"
             Title="Raffle App" Position="960, 540"
             Width="600" Height="800"
@@ -17,7 +17,7 @@
     <Design.DataContext>
         <!-- This only sets the DataContext for the previewer in an IDE,
              to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
-        <vm:ApplicationViewModel />
+        <vm:RaffleViewModel />
     </Design.DataContext>
 
     <Panel VerticalAlignment="Stretch" HorizontalAlignment="Stretch">

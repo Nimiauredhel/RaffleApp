@@ -19,9 +19,9 @@ internal static class Program
 
         RaffleData.Initialize();
 
-        if (!TwitchManager.Initialized)
+        if (!TwitchViewModel.Initialized)
         {
-            TwitchManager.InitializeTwitchSettings();
+            TwitchViewModel.InitializeTwitchSettings();
         }
         
         return builder.StartWithClassicDesktopLifetime(args);

@@ -18,7 +18,7 @@ public partial class App : Application
     private MainView mainView;
     private SignupView signupView;
     private RaffleView raffleView;
-    private ApplicationViewModel _applicationViewModel = new ApplicationViewModel();
+    private RaffleViewModel _raffleViewModel = new RaffleViewModel();
 
     public override void Initialize()
     {
@@ -32,14 +32,14 @@ public partial class App : Application
         
         mainView = new MainView()
         {
-             DataContext = _applicationViewModel, SignupView = signupView, RaffleView = raffleView
+             DataContext = _raffleViewModel, SignupView = signupView, RaffleView = raffleView
         };
 
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktopLifetime)
         {
             desktopLifetime.MainWindow = new MainWindow()
             {
-                DataContext = _applicationViewModel, MainView = mainView
+                DataContext = _raffleViewModel, MainView = mainView
             };
 
             desktopLifetime.Exit += OnExit;
@@ -48,7 +48,7 @@ public partial class App : Application
         {
             singleView.MainView = new MainSingleView()
             {
-                DataContext = _applicationViewModel, MainView = mainView
+                DataContext = _raffleViewModel, MainView = mainView
             };
         }
         
@@ -57,7 +57,7 @@ public partial class App : Application
 
     private void OnExit(object sender, ControlledApplicationLifetimeExitEventArgs args)
     {
-        TwitchManager.OnExit();
+        TwitchViewModel.OnExit();
         RaffleData.OnExit();
     }
 }

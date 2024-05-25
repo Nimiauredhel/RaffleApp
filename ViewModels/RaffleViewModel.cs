@@ -12,11 +12,8 @@ using ReactiveUI;
 
 namespace RaffleApp.ViewModels;
 
-public class ApplicationViewModel : ViewModelBase
+public class RaffleViewModel : ViewModelBase
 {
-#pragma warning disable CA1822 // Mark members as static
-#pragma warning restore CA1822 // Mark members as static
-
     public ObservableCollection<Participant> AllParticipants => RaffleData.AllParticipants;
     public ObservableCollection<Participant> CurrentParticipants => RaffleData.CurrentParticipants;
     public ObservableCollection<Participant> RaffleEntries => raffleEntries;
@@ -39,7 +36,7 @@ public class ApplicationViewModel : ViewModelBase
     private ObservableCollection<Participant> raffleEntries = new ObservableCollection<Participant>();
     private string raffleStateText;
 
-    public ApplicationViewModel()
+    public RaffleViewModel()
     {
         InitializeParticipantSource();
         this.WhenValueChanged(x => x.RaffleInProgress).Subscribe(delegate { InitializeParticipantSource(); });
@@ -109,8 +106,8 @@ public class ApplicationViewModel : ViewModelBase
     private async Task DoRaffle()
     {
         Optional<bool> confirmed = await Dialogs.ConfirmationDialog(
-            "Are you sure? This will decide the winner and cannot be undone.", "Let's go!", "Not yet.", Brushes.Red,
-            Brushes.Yellow, new Thickness(5));
+            "Are you sure?\nThis will decide the winner and cannot be undone.", "Let's go!", "Not yet.", Brushes.Red,
+            Brushes.Yellow, new Thickness(5), Brushes.Black, 24);
         while (!confirmed.HasValue) await Task.Delay(10);
 
         if (confirmed.Value == false)
@@ -126,16 +123,16 @@ public class ApplicationViewModel : ViewModelBase
         RaffleEntries.Clear();
         Random random = new Random(DateTime.Now.Ticks.GetHashCode() + DateTime.Now.Nanosecond);
 
-        await Task.Delay(1000);
+        await Task.Delay(500);
         RaffleStateText = "Shuffling Participants!";
 
         for (int i = 0; i < CurrentParticipants.Count; i++)
         {
-            await Task.Delay(500 / (i + 1));
+            await Task.Delay(250 / (i + 1));
             CurrentParticipants.Shuffle(random);
         }
 
-        await Task.Delay(1000);
+        await Task.Delay(500);
         RaffleStateText = "Dispensing Tickets!";
 
         for (int i = CurrentParticipants.Count - 1; i >= 0; i--)
@@ -145,30 +142,30 @@ public class ApplicationViewModel : ViewModelBase
 
             for (int j = 0; j < entryCount; j++)
             {
-                await Task.Delay(500 / (j + 1));
+                await Task.Delay(250 / (j + 1));
                 RaffleEntries.Add(participant);
             }
 
             CurrentParticipants.RemoveAt(i);
-            await Task.Delay(500 / (i + 1));
+            await Task.Delay(250 / (i + 1));
         }
 
-        await Task.Delay(1000);
+        await Task.Delay(500);
         RaffleStateText = "Shuffling Tickets!";
         app.RaffleView.CurrentParticipantList.ItemsSource = RaffleEntries;
 
         for (int i = 0; i < RaffleEntries.Count; i++)
         {
-            await Task.Delay(500 / (i + 1));
+            await Task.Delay(250 / (i + 1));
             RaffleEntries.Shuffle(random);
         }
 
-        await Task.Delay(1000);
+        await Task.Delay(500);
         RaffleStateText = "Eliminating Tickets!";
 
         while (RaffleEntries.Count > 1)
         {
-            await Task.Delay(1500 / RaffleEntries.Count);
+            await Task.Delay(1000 / RaffleEntries.Count);
             int randomIndex = (int)(random.NextSingle() * RaffleEntries.Count);
             Participant removed = RaffleEntries[randomIndex];
             RaffleEntries.RemoveAt(randomIndex);
@@ -180,12 +177,16 @@ public class ApplicationViewModel : ViewModelBase
         }
 
         string winnerName = raffleEntries[0].Name;
-        await Task.Delay(1000);
+        await Task.Delay(500);
         RaffleEntries[0].OnWon();
         RaffleEntries.Clear();
         RaffleData.Save();
-        RaffleStateText = $"{winnerName} is the winner!!!";
-        await Task.Delay(2000);
+        RaffleStateText = $"{winnerName} is the winner!";
+        await Task.Delay(500);
+        
+        await Dialogs.InfoDialog(
+                    raffleStateText, "Congrats!", Brushes.Orchid,
+                    Brushes.Plum, new Thickness(5), Brushes.Gold, 32);
 
         RaffleInProgress = false;
     }

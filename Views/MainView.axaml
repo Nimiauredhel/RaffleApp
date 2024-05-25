@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="clr-namespace:RaffleApp.ViewModels"
              xmlns:dialogs="using:AvaloniaDialogs.Views"
-             x:DataType="vm:ApplicationViewModel"
+             x:DataType="vm:RaffleViewModel"
              mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="800"
              Width="600" Height="800"
              HorizontalAlignment="Stretch"
@@ -17,12 +17,12 @@
     <Design.DataContext>
         <!-- This only sets the DataContext for the previewer in an IDE,
              to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
-        <vm:ApplicationViewModel />
+        <vm:RaffleViewModel />
     </Design.DataContext>
 
     <dialogs:ReactiveDialogHost CloseOnClickAway="False" DialogMargin="0">
     <Border BorderBrush="Gray" BorderThickness="2" CornerRadius="10" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-            <Panel x:DataType="vm:ApplicationViewModel">
+            <Panel x:DataType="vm:RaffleViewModel">
                 <views:SignupView Name="SignupView" IsVisible="{Binding !RaffleInProgress }" />
                 <views:RaffleView Name="RaffleView" IsVisible="{Binding RaffleInProgress }" />
             </Panel>
