@@ -6,7 +6,7 @@ using SQLite;
 
 namespace RaffleApp.ViewModels.Twitch;
 
-public static class TwitchViewModel
+public static partial class TwitchViewModel
 {
     public static TwitchSettings CurrentTwitchSettings { get; private set; }
     public static bool Initialized { get; private set; }

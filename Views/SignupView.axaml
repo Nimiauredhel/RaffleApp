@@ -88,7 +88,7 @@
                         HorizontalAlignment="Center" MinHeight="70" MinWidth="70">
                     <Button Name="RaffleButton" Background="Salmon"
                             HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
-                            Click="RaffleButton_OnClick">
+                            Command="{Binding BeginRaffle}">
                         <TextBlock Text="Begin Raffle" FontSize="20" HorizontalAlignment="Stretch"
                                    VerticalAlignment="Stretch" FontWeight="UltraBold">
                         </TextBlock>
@@ -104,12 +104,25 @@
                 <StackPanel Orientation="Vertical">
                     <TextBlock Text="Stats" HorizontalAlignment="Center"></TextBlock>
                     <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto"
-                                  MinHeight="256" MaxHeight="256">
-                        <TreeDataGrid Source="{Binding ParticipantSource, Mode=OneWay}"
-                                      Name="AllParticipantsList"
+                                  MinWidth="512" MaxWidth="512" MinHeight="256" MaxHeight="256">
+                        <DataGrid ItemsSource="{Binding AllParticipants, Mode=TwoWay}"
+                                      Name="AllParticipantsList" 
                                       BorderThickness="1" BorderBrush="Gray"
                                       HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                        </TreeDataGrid>
+                            <DataGrid.Columns>
+                               <DataGridTemplateColumn Header="DELETE" IsReadOnly="False">
+                                  <DataGridTemplateColumn.CellTemplate> <DataTemplate>
+                                          <Button Command="{Binding Delete}"
+                                                  Background="Yellow" Foreground="Red">
+                                              <TextBlock Text="X"/>
+                                          </Button>
+                                      </DataTemplate> </DataGridTemplateColumn.CellTemplate>
+                               </DataGridTemplateColumn>
+                               <DataGridTextColumn Header="Name" Binding="{Binding Name}" IsReadOnly="True"></DataGridTextColumn> 
+                               <DataGridTextColumn Header="Losses" Binding="{Binding ConsecutiveLost}" IsReadOnly="True"></DataGridTextColumn> 
+                               <DataGridCheckBoxColumn Header="Participating?" Binding="{Binding Participating, Mode=TwoWay}"  IsReadOnly="False"></DataGridCheckBoxColumn> 
+                            </DataGrid.Columns>
+                        </DataGrid>
                     </ScrollViewer>
                 </StackPanel>
             </Border>

@@ -2,89 +2,35 @@
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using Avalonia;
-using Avalonia.Controls;
-using Avalonia.Controls.Models.TreeDataGrid;
 using Avalonia.Data;
 using Avalonia.Media;
-using DynamicData.Binding;
+using CommunityToolkit.Mvvm.ComponentModel;
 using RaffleApp.Models;
-using ReactiveUI;
 
 namespace RaffleApp.ViewModels;
 
-public class RaffleViewModel : ViewModelBase
+public partial class RaffleViewModel : ViewModelBase
 {
-    public ObservableCollection<Participant> AllParticipants => RaffleData.AllParticipants;
-    public ObservableCollection<Participant> CurrentParticipants => RaffleData.CurrentParticipants;
-    public ObservableCollection<Participant> RaffleEntries => raffleEntries;
-    public FlatTreeDataGridSource<Participant> ParticipantSource { get; private set; }
-
-    public bool RaffleInProgress
-    {
-        get => raffleInProgress;
-        set => this.RaiseAndSetIfChanged(ref raffleInProgress, value);
-    }
-
-    public string RaffleStateText
-    {
-        get => raffleStateText;
-        set => this.RaiseAndSetIfChanged(ref raffleStateText, value);
-    }
-
-    private bool raffleInProgress = false;
     private App app => Application.Current as App;
+    
+    [ObservableProperty][NotifyPropertyChangedFor(nameof(AllParticipants))]
+    private ObservableCollection<Participant> allParticipants = RaffleData.AllParticipants;
+    [ObservableProperty][NotifyPropertyChangedFor(nameof(CurrentParticipants))]
+    private ObservableCollection<Participant> currentParticipants = RaffleData.CurrentParticipants;
+    [ObservableProperty][NotifyPropertyChangedFor(nameof(RaffleEntries))]
     private ObservableCollection<Participant> raffleEntries = new ObservableCollection<Participant>();
+    [ObservableProperty][NotifyPropertyChangedFor(nameof(RaffleStateText))]
     private string raffleStateText;
+    [ObservableProperty][NotifyPropertyChangedFor(nameof(RaffleInProgress))]
+    private bool raffleInProgress = false;
 
     public RaffleViewModel()
     {
-        InitializeParticipantSource();
-        this.WhenValueChanged(x => x.RaffleInProgress).Subscribe(delegate { InitializeParticipantSource(); });
-    }
-
-    private void InitializeParticipantSource()
-    {
-        ParticipantSource = new FlatTreeDataGridSource<Participant>(AllParticipants)
-        {
-            Columns =
-            {
-                new CheckBoxColumn<Participant>("DEL", participant => false,
-                    (participant, b) =>
-                    {
-                        if (b)
-                        {
-                            _ = RaffleData.TryRemoveParticipant(participant);
-                        }
-                    }),
-                new TextColumn<Participant, string>
-                    ("Name", x => x.Name),
-                new TextColumn<Participant, int>
-                    ("Consecutive Lost", x => x.ConsecutiveLost),
-                new CheckBoxColumn<Participant>("In Current Raffle?", participant => participant.Participating,
-                    (participant, b) =>
-                    {
-                        if (b)
-                        {
-                            if (!participant.Participating)
-                            {
-                                CurrentParticipants.Add(participant);
-                            }
-                        }
-                        else
-                        {
-                            if (participant.Participating)
-                            {
-                                CurrentParticipants.Remove(participant);
-                            }
-                        }
-                    }),
-            }
-        };
     }
 
     public void BeginRaffle()
     {
-        if (raffleInProgress) return;
+        if (RaffleInProgress) return;
         Console.WriteLine("Requested raffle...");
 
         if (CurrentParticipants.Count == 0)
@@ -176,7 +122,7 @@ public class RaffleViewModel : ViewModelBase
             }
         }
 
-        string winnerName = raffleEntries[0].Name;
+        string winnerName = RaffleEntries[0].Name;
         await Task.Delay(500);
         RaffleEntries[0].OnWon();
         RaffleEntries.Clear();
@@ -185,7 +131,7 @@ public class RaffleViewModel : ViewModelBase
         await Task.Delay(500);
         
         await Dialogs.InfoDialog(
-                    raffleStateText, "Congrats!", Brushes.Orchid,
+                    RaffleStateText, "Congrats!", Brushes.Orchid,
                     Brushes.Plum, new Thickness(5), Brushes.Gold, 32);
 
         RaffleInProgress = false;

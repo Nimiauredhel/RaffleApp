@@ -1,7 +1,6 @@
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using RaffleApp.Models;
-using RaffleApp.ViewModels;
 
 namespace RaffleApp.Views;
 
@@ -10,11 +9,6 @@ public partial class SignupView : UserControl
     public SignupView()
     {
         InitializeComponent();
-    }
-
-    private void RaffleButton_OnClick(object? sender, RoutedEventArgs e)
-    { 
-        (DataContext as RaffleViewModel)?.BeginRaffle();
     }
 
     private void AddButton_OnClick(object? sender, RoutedEventArgs e)

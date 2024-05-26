@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Avalonia;
-using Avalonia.ReactiveUI;
 using RaffleApp.Models;
 using RaffleApp.ViewModels.Twitch;
 
@@ -32,6 +31,5 @@ internal static class Program
         => AppBuilder.Configure<App>()
             .UsePlatformDetect()
             .WithInterFont()
-            .LogToTrace()
-            .UseReactiveUI();
+            .LogToTrace();
 }

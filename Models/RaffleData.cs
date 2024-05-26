@@ -4,8 +4,8 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Avalonia;
+using Avalonia.Data;
 using Avalonia.Media;
-using DynamicData.Kernel;
 using RaffleApp.ViewModels;
 using SQLite;
 
@@ -13,19 +13,16 @@ namespace RaffleApp.Models;
 
 public static class RaffleData
 {
-    public static ObservableCollection<Participant> CurrentParticipants { get; } =
-        new ObservableCollection<Participant>();
+    public static ObservableCollection<Participant> CurrentParticipants { get; } = [];
 
-    public static ObservableCollection<Participant> AllParticipants { get; private set; } =
-        new ObservableCollection<Participant>();
+    public static ObservableCollection<Participant> AllParticipants { get; private set; } = [];
 
-    private static readonly SQLiteConnection raffleDb =
-        new SQLiteConnection(Path.Combine(AppContext.BaseDirectory, "raffle.sqlite"));
+    private static readonly SQLiteConnection raffleDb = new(Path.Combine(AppContext.BaseDirectory, "raffle.sqlite"));
 
     public static void Initialize()
     {
         raffleDb.CreateTable<Participant>();
-        AllParticipants = new ObservableCollection<Participant>(raffleDb.Table<Participant>().ToList());
+        AllParticipants = new(raffleDb.Table<Participant>().ToList());
     }
 
     public static void Save()
@@ -41,13 +38,13 @@ public static class RaffleData
         }
         else
         {
-            Optional<Participant> existing = AllParticipants.FirstOrOptional(participant => participant.Name == name);
-
-            if (existing.HasValue)
+            Participant? existing = AllParticipants.Select(participant => participant)
+                .Where(participant => participant.Name == name).FirstOrDefault((Participant?)null);
+            if (existing != null)
             {
                 Console.WriteLine("Adding past participant to current participants.");
-                CurrentParticipants.Add(existing.Value);
-                raffleDb.InsertOrReplace(existing.Value);
+                CurrentParticipants.Add(existing);
+                raffleDb.InsertOrReplace(existing);
             }
             else
             {
@@ -97,7 +94,21 @@ public class Participant
     [Unique, PrimaryKey] public string Name { get; set; }
     public int ConsecutiveLost { get; set; }
 
-    public bool Participating => RaffleData.CurrentParticipants.Contains(this);
+    public bool Participating
+    {
+        get => RaffleData.CurrentParticipants.Contains(this);
+        set
+        {
+            if (value)
+            {
+                RaffleData.CurrentParticipants.Add(this);
+            }
+            else
+            {
+                RaffleData.CurrentParticipants.Remove(this);
+            }
+        }
+    }
 
     public Participant(string name)
     {
@@ -119,5 +130,10 @@ public class Participant
     public void OnWon()
     {
         ConsecutiveLost = 0;
+    }
+
+    public void Delete()
+    {
+        _ = RaffleData.TryRemoveParticipant(this);
     }
 }
