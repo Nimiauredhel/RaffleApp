@@ -7,6 +7,7 @@ using Avalonia;
 using Avalonia.Media;
 using DynamicData.Kernel;
 using RaffleApp.ViewModels;
+using ReactiveUI;
 using SQLite;
 
 namespace RaffleApp.Models;
@@ -92,12 +93,19 @@ public static class RaffleData
     }
 }
 
-public class Participant
+public class Participant : ReactiveObject
 {
     [Unique, PrimaryKey] public string Name { get; set; }
-    public int ConsecutiveLost { get; set; }
 
     public bool Participating => RaffleData.CurrentParticipants.Contains(this);
+    
+    public int ConsecutiveLost
+    {
+        get => consecutiveLost;
+        set => this.RaiseAndSetIfChanged(ref consecutiveLost, value);
+    }
+    
+    private int consecutiveLost;
 
     public Participant(string name)
     {
