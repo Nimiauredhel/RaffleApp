@@ -6,7 +6,7 @@ My first time writing a Twitch bot and using Avalonia so it might not be top not
 ## How do I use it?
 ### Installation
 Currently you have to build the app yourself. Any .NET IDE such as Visual Studio or Rider should work, given a couple minutes to download the various dependencies.
-I'll add actual releases soon, together with some of the more important missing featuers.
+I may add built releases when the project is more feature complete.
 ### Usage
 1. Add participants to the current raffle. This can either be done with the provided Twitch integration, or manually via a text box.
 2. Push the big "Start Raffle!" button to watch as the app does some shuffling and elimination to select a winner.
