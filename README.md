@@ -16,7 +16,7 @@ When a raffle is over, the winner has their "consecutive losses" zeroed, while e
 This mechanic is intended for situations where you'd like to favor people who keep showing up to raffles but haven't had a win.
 ## Twitch integration?
 This app also doubles as a Twitch bot, which allows chatters to join an open raffle via a chat keyword.
-You only need to have a spare Twitch account to use as a bot.
+You do need to have a spare Twitch account to use as a bot.
 The "Twitch Settings" panel has all the fields you need to fill out for this to work:
 * The bot's username
 * The bot's OAuth token (it's easy, google it)
@@ -24,10 +24,10 @@ The "Twitch Settings" panel has all the fields you need to fill out for this to 
 * The name of the channel on which the bot should listen for the keyword
 
 The Twitch-Bot On/Off switch instantly starts and terminates the bot's listening activity, respectively.
-It may take the bot a moment to log-in. There's not a lot of feedback at the moment for what the bot is doing and whether it encountered any issues, but that's coming very soon.
+It may take the bot a moment to log-in. There's not a lot of feedback at the moment for what the bot is doing and whether it encountered any issues, but it's on the list.
 
 ## Next Steps
-A selection of features I would like to add in the near future:
+A selection of features I would like to add in the future:
 
 * Add a text feed of what the bot is doing and whether it encountered any issues, similar to a developer console
 * Allow the bot to be more talkative and notify chatters of events such as being added to the raffle, starting the raffle, and declaring the winner
